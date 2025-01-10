@@ -4,10 +4,6 @@
 Esta simples API foi desenvolvida com o intuito de praticar e entender a construção e execução de uma API com um simples crud de Books e Users.
 De simples compreensão e construção esta API lhe retorna os dados que lhe foi fornecidos.
 
-## Autor
-
-- [@Rodrigo-Kelven](https://github.com/Rodrigo-Kelven)
-  
 ## Instalação
 
 Instale o projeto
@@ -35,5 +31,11 @@ Instale e ative uma venv
   Windows: .\venv\Scripts\activate 
 ```
 
+## Contribuições
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests para adicionar novos algoritmos, corrigir erros ou melhorar a documentação. :)
 
+
+## Autor
+
+- [@Rodrigo-Kelven](https://github.com/Rodrigo-Kelven)
 
