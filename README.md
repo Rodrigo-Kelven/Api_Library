@@ -16,6 +16,17 @@ Instale o projeto
   git clone https://github.com/Rodrigo-Kelven/Api_Books/
   cd Api_Books
 ```
+Instale as dependências
+
+```bash
+  pip instal -r requirements.txt
+```
+Para rodar o projeto, rode o seguinte comando
+
+```bash
+  cd Api_Books/src
+  fastapi dev main.py
+```
 Instale e ative uma venv 
 
 ```bash
@@ -23,16 +34,6 @@ Instale e ative uma venv
   Linux: source venv/bin/activate
   Windows: .\venv\Scripts\activate 
 ```
-Instale as dependências
 
-```bash
-  pip instal -r requirements.txt
-```
-## Rodando os testes
 
-Para rodar o projeto, rode o seguinte comando
 
-```bash
-  cd Api_Books/src
-  fastapi dev main.py
-```
