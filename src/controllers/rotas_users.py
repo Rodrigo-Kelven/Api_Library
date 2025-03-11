@@ -2,11 +2,11 @@ from fastapi import APIRouter, HTTPException, Depends, Query, Body, Path
 from sqlmodel import Session, select
 from typing import List
 
-from config.config import get_session_users # `engine` esteja configurado no arquivo de config
+from config.config_db import get_session_users # `engine` esteja configurado no arquivo de config
 from models.users import User, ResponseUser
 
 
-rota_users = APIRouter(prefix="/api-users")
+rota_users = APIRouter(prefix="/api-library/users")
 
 
 @rota_users.get("/list",

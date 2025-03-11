@@ -2,11 +2,11 @@ from fastapi import APIRouter, HTTPException, Depends, Query, Body, Path
 from sqlmodel import Session, select
 from typing import List
 
-from config.config import get_session_books  # `engine` esteja configurado no arquivo de config
+from config.config_db import get_session_books  # `engine` esteja configurado no arquivo de config
 from models.books import Book, ResponseBook
 
 # Criando o roteador com prefixo
-rota_books = APIRouter(prefix="/api-books")
+rota_books = APIRouter(prefix="/api-library/books")
 
 
 anotacoes = {

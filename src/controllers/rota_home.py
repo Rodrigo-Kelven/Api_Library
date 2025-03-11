@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 
-rota_home = APIRouter()
+rota_home = APIRouter(prefix="/api-library/home")
 
 @rota_home.get("/",
                status_code=200,
@@ -10,7 +10,14 @@ rota_home = APIRouter()
                response_description="Response"
                )
 async def home(
-    name: str = Query(default=None, alias="Nome", title="name", description="Insira um nome -> Opcional", max_length=10)):
+    name: str = Query(
+        default=None,
+        alias="Nome",
+        title="name",
+        description="Insira um nome -> Opcional",
+        max_length=10
+        )
+    ):
 
     if name:
         return {"Hello":f"{name.capitalize().strip()}"}
