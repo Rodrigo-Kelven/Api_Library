@@ -1,18 +1,13 @@
-from typing import Optional
-from sqlmodel import SQLModel, Field
-#from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
+from config.config_db import Base
 
-#Model de User
-class User(SQLModel, table= True):
-    id: int = Field(default_factory=None, primary_key=True)
-    nome: str = Field(...,alias="Nome")
-    username: str = Field(..., alias="Username")
-    email: str = Field(..., alias="Email")
-    password: str = Field(..., alias="Password")
+class User(Base):
+    __tablename__ = 'users'  # Nome da tabela no banco de dados
 
-#Model de resposta de User
-class ResponseUser(SQLModel):
-    id: int = Field(default_factory=None, primary_key=True)
-    nome: str = Field(...,alias="Nome")
-    username: str = Field(..., alias="Username")
-    email: str = Field(..., alias="Email")
+    id = Column(Integer, primary_key=True, index=True)  # ID do usuário
+    username = Column(String, unique=True, index=True)  # Nome de usuário único
+    email = Column(String, unique=True, index=True)  # Email único
+    password = Column(String)  # Senha (deve ser armazenada de forma segura)
+
+    def __repr__(self):
+        return f"<User (id={self.id}, username={self.username}, email={self.email})>"

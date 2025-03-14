@@ -1,31 +1,11 @@
-from typing import Optional
-from sqlmodel import SQLModel, Field
-#from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
+from config.config_db import Base
 
-# Model de Book
-class Book(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)  # Correção aqui
-    nome: str = Field(..., alias="Nome")
-    titulo: str = Field(..., alias="Titulo")
-    categoria: str = Field(..., alias="Categoria")
-    paginas: int = Field(..., alias="Paginas")
-    autor: str = Field(..., alias="Autor")
-    ano_publicacao: int = Field(..., alias="AnoPublicacao")
-    editora: Optional[str] = Field(None, alias="Editora") 
-    descricao: Optional[str] = Field(None, alias="Descricao")
-    isbn: Optional[str] = Field(None, alias="ISBN")
-    lingua: str = Field(..., alias="Lingua")
-    
 
-# Models de reposta de Book
-class ResponseBook(SQLModel):
-    nome: str = Field(..., alias="Nome")
-    titulo: str = Field(..., alias="Titulo")
-    categoria: str = Field(..., alias="Categoria")
-    paginas: int = Field(..., alias="Paginas")
-    autor: str = Field(..., alias="Autor")
-    ano_publicacao: int = Field(..., alias="AnoPublicacao")
-    editora: Optional[str] = Field(None, alias="Editora")
-    descricao: Optional[str] = Field(None, alias="Descricao")
-    isbn: Optional[str] = Field(None, alias="ISBN")
-    lingua: str = Field(..., alias="Lingua")
+class Item(Base):
+    __tablename__ = 'items'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    description = Column(String, index=True)
+
