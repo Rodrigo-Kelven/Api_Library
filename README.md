@@ -1,6 +1,6 @@
 
 # Simple API Books
-# Versao 0.0.10
+# Versao 0.1.0
 
 Esta simples API foi desenvolvida com o intuito de praticar e entender a construção e execução de uma API com um simples crud de Books e Users.
 De simples compreensão e construção esta API lhe retorna os dados que lhe foi fornecidos.
