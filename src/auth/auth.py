@@ -1,18 +1,18 @@
-from auth.models.users import UserDB, Role
-from auth.config.config_db import AsyncSessionLocal
 from auth.config.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, pwd_context, oauth2_scheme
-from auth.schemas.user import TokenData, User
-from sqlalchemy.ext.asyncio import AsyncSession
-from datetime import datetime, timedelta, timezone
-from typing import Annotated
-import jwt
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from starlette.middleware.base import BaseHTTPMiddleware
-import logging
-from starlette.requests import Request
+from fastapi.security import OAuth2PasswordRequestForm
+from auth.config.config_db import AsyncSessionLocal
+from datetime import datetime, timedelta, timezone
+from fastapi import Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from auth.schemas.user import TokenData, User
 from starlette.responses import JSONResponse
+from auth.models.users import UserDB, Role
+from starlette.requests import Request
 from sqlalchemy.future import select  # Para consultas assíncronas
+from typing import Annotated
+import logging
+import jwt
 
 
 # Funções utilitárias
