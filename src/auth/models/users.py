@@ -1,5 +1,5 @@
 from sqlalchemy import Column,  String, Boolean, Enum as SQLAlchemyEnum
-from auth.config.config_db import Base_auth as Base
+from src.auth.config.config_db import Base_auth as Base
 from enum import Enum as PyEnum
 
 

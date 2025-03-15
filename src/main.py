@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from config.config_db import Base_books, engine_books
-from controllers.all_routes import all_routes
-from auth.auth import LogRequestMiddleware, ExceptionHandlingMiddleware
-from auth.config.config import config_CORS_auth
-from auth.config.config_db import Base_auth, engine_auth
-from config.config import config_CORS
+from src.config.config_db import Base_books, engine_books
+from src.controllers.all_routes import all_routes
+from src.auth.auth import LogRequestMiddleware, ExceptionHandlingMiddleware
+from src.auth.config.config import config_CORS_auth
+from src.auth.config.config_db import Base_auth, engine_auth
+from src.config.config import config_CORS
 
 
 app = FastAPI(

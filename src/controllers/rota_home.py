@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, status
 
 rota_home = APIRouter()
 
 @rota_home.get(
         path="/",
-        status_code=200,
+        status_code=status.HTTP_200_OK,
         name="Rota Home",
         summary="Rota Home",
         description="Esta rota -> Home, pode ser passada um Query => Opcional!",

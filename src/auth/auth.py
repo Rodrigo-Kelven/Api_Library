@@ -1,13 +1,13 @@
-from auth.config.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, pwd_context, oauth2_scheme
+from src.auth.config.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, pwd_context, oauth2_scheme
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
-from auth.config.config_db import AsyncSessionLocal
+from src.auth.config.config_db import AsyncSessionLocal
 from datetime import datetime, timedelta, timezone
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from auth.schemas.user import TokenData, User
+from src.auth.schemas.user import TokenData, User
 from starlette.responses import JSONResponse
-from auth.models.users import UserDB, Role
+from src.auth.models.users import UserDB, Role
 from starlette.requests import Request
 from sqlalchemy.future import select  # Para consultas assíncronas
 from typing import Annotated
@@ -17,6 +17,7 @@ import jwt
 
 # Funções utilitárias
 async def verify_password(plain_password: str, hashed_password: str) -> bool:
+    # retorna um booleano ao verificar o passoword
     return pwd_context.verify(plain_password, hashed_password)
 
 
@@ -24,19 +25,21 @@ async def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-async def get_user(db: AsyncSession, username: str) -> UserDB:
-    result = await db.execute(select(UserDB).filter(UserDB.username == username))
+async def get_user(db: AsyncSession, email: str) -> UserDB:
+    # busca o usuario pelo email
+    result = await db.execute(select(UserDB).filter(UserDB.email == email))
     return result.scalars().first()
 
 
-async def authenticate_user(db: AsyncSession, username: str, password: str) -> UserDB:
-    user = await get_user(db, username)
-    if not user:
-        return False
-    if not await verify_password(password, user.hashed_password):
-        return False
-    return user
+async def authenticate_user_by_email(db: AsyncSession, email: str, password: str):
+    # buscar o usuário pelo e-mail
+    result = await db.execute(select(UserDB).where(UserDB.email == email))
+    user = result.scalars().first()
 
+    # Verifica se o usuário foi encontrado e se a senha está correta
+    if user and verify_password(password, user.hashed_password):
+        return user
+    return None
 
 # Criar token de acesso
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
