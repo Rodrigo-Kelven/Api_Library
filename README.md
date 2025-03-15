@@ -47,4 +47,5 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull r
 ## Autor
 
 - [@Rodrigo-Kelven](https://github.com/Rodrigo-Kelven)
+- [@Jonnyxjj](https://github.com/jhonnyxjj)
 
