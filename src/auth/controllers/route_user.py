@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select  # Para consultas assíncronas
 
 
-routes_auth_auten = APIRouter(prefix="/api-auten_auth")
+routes_auth_auten = APIRouter()
 
 # Rota de login
 @routes_auth_auten.post(

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 
-rota_home = APIRouter(prefix="/api-library/home")
+rota_home = APIRouter()
 
 @rota_home.get(
         path="/",

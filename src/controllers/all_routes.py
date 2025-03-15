@@ -12,9 +12,14 @@ class Tags(Enum):
     User = "string"
 
 
+class prefix(Enum):
+    api = "/api-library/v1"
+    api_auth = "/api-library/v1/auten_auth"
+
+
 # funcao para armazenar todas as rotas em um unico lugar
 def all_routes(app):
-    app.include_router(rota_home, tags=[Tags.Home])
-    app.include_router(routes_books, tags=[Tags.Books])
-    app.include_router(routes_auth_auten, tags=[Tags.User])
+    app.include_router(rota_home, tags=[Tags.Home], prefix=prefix.api.value)
+    app.include_router(routes_books, tags=[Tags.Books], prefix=prefix.api.value)
+    app.include_router(routes_auth_auten, tags=[Tags.User], prefix=prefix.api_auth.value)
    

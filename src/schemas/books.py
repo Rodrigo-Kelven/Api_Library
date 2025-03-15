@@ -1,14 +1,16 @@
 from pydantic import BaseModel
+from typing import  Optional
 
-class ItemBase(BaseModel):
-    name: str
-    description: str
 
-class ItemCreate(ItemBase):
+# Schema para o livro
+class BookBase(BaseModel):
+    title: str
+    description: Optional[str] = None
+    author: str
+    category: str
+
+class BookCreate(BookBase):
     pass
 
-class Item(ItemBase):
+class Book(BookBase):
     id: int
-
-    class Config:
-        orm_mode = True
