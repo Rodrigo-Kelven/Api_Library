@@ -3,16 +3,16 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 
 
-Base = declarative_base()
+Base_books = declarative_base()
 
 # Use aiosqlite para SQLite
 DATABASE_URL = "sqlite+aiosqlite:///./Banco_de_Dados/books_db.db"
 
 # Criação do engine assíncrono
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine_books = create_async_engine(DATABASE_URL, echo=True)
 
 # Criação da sessão assíncrona
-AsyncSessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+AsyncSessionLocal = sessionmaker(bind=engine_books, class_=AsyncSession, expire_on_commit=False)
 
 # Função para obter a sessão do banco de dados
 async def get_db():
