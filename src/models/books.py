@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String
 from config.config_db import Base_books as Base
 
+# se o nosql for usado, precisará refatorar, models, schemas, responses models, e write in databases
+
 
 class Book(Base):
     __tablename__ = 'books'
