@@ -9,7 +9,7 @@ from enum import Enum
 class Tags(Enum):
     Home = "Home"
     Books = "Books"
-    User = "string"
+    User = "Users"
 
 
 class prefix(Enum):
