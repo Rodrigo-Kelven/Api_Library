@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: my-redis
+    ports:
+      - "6379:6379"  # Mapeia a porta 6379 do container para a porta 6379 do host
+    volumes:
+      - redis-data:/data  # Volume persistente para armazenar dados do Redis
+
+volumes:
+  redis-data:  # Define o volume persistente

@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+import redis.asyncio as aioredis
 
 
 Base_books = declarative_base()
@@ -18,3 +19,8 @@ AsyncSessionLocal = sessionmaker(bind=engine_books, class_=AsyncSession, expire_
 async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
+
+
+# Configuração do Redis
+REDIS_URL = "redis://localhost:6379"  # URL do Redis
+redis_client = aioredis.from_url(REDIS_URL)
