@@ -8,7 +8,7 @@
 ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) 
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
 
-# Versao 0.1.6
+# Versao 0.1.8
 
 Esta simples API foi desenvolvida com o intuito de praticar e entender a construção e execução de uma API com um simples crud de Books e Users.
 De simples compreensão e construção esta API lhe retorna os dados que lhe foi fornecidos.

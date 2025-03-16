@@ -35,6 +35,7 @@ async def read_users_me(current_user: Annotated[User , Depends(get_current_activ
     return current_user
 
 # Rota para obter itens do usuário autenticado
+# somente teste
 @routes_auth_auten.get(
     path="/users/me/items/",
     status_code=status.HTTP_202_ACCEPTED,

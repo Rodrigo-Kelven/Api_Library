@@ -16,7 +16,7 @@ class Tags(Enum):
 
 class prefix(Enum):
     api = "/api-library/v1"
-    api_auth = "/api-library/v1/auten_auth"
+    api_auth = "/api-library/v1/auth"
 
 
 # funcao para armazenar todas as rotas em um unico lugar

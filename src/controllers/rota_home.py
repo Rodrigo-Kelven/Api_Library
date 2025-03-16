@@ -3,7 +3,7 @@ from fastapi import APIRouter, Query, status
 rota_home = APIRouter()
 
 @rota_home.get(
-        path="/",
+        path="/status",
         status_code=status.HTTP_200_OK,
         name="Rota Home",
         summary="Rota Home",

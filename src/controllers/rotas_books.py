@@ -77,7 +77,7 @@ async def read_items(
 
 
 @routes_books.get(
-        path="/books-all/",
+        path="/books/",
         status_code=status.HTTP_200_OK,
         description="Router view all books  in db",
         name="Router get all books",
