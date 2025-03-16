@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, status
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from sqlalchemy import delete
+from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.config.config_db import get_db
 from src.schemas.books import Book, BookCreate, BookUpdate
@@ -59,11 +62,56 @@ async def delete_item(book_id: int, db: AsyncSession = Depends(get_db)):
 # implementar juntamente com pagination no front
 # possivel implementacao de Redis
 @routes_books.get(
-        path="/books/",
+        path="/books-search-limit/",
         status_code=status.HTTP_200_OK,
-        description="Router view all books in db",
+        description="Router view  books with limit in db",
+        name="Router get all books with limit",
+        response_model=list[Book]
+        )
+async def read_items(
+    db: AsyncSession = Depends(get_db),
+    skip: int = 0,
+    limit: int = 20
+    ):
+    return await BooksServices.get_all_with_limit_books(db, skip=skip, limit=limit)
+
+
+@routes_books.get(
+        path="/books-all/",
+        status_code=status.HTTP_200_OK,
+        description="Router view all books  in db",
         name="Router get all books",
         response_model=list[Book]
         )
 async def read_items(db: AsyncSession = Depends(get_db)):
     return await BooksServices.get_all_books(db)
+
+
+
+@routes_books.get(
+    path="/books/search-filters/",
+    response_model=List[Book],
+    status_code=status.HTTP_200_OK,
+    description="List search with query books",
+    name="Route search with query books"
+    )
+async def read_books(
+    title: Optional[str] = Query(None, description="Filtrar por título"),
+    author: Optional[str] = Query(None, description="Filtrar por autor"),
+    category: Optional[str] = Query(None, description="Filtrar por categoria"),
+    min_pages: Optional[int] = Query(None, description="Filtrar por número mínimo de páginas"),
+    max_pages: Optional[int] = Query(None, description="Filtrar por número máximo de páginas"),
+    available: Optional[bool] = Query(None, description="Filtrar por disponibilidade"),
+    skip: int = 0,
+    limit: int = 10,
+    db: AsyncSession = Depends(get_db)
+    ):
+
+    return await BooksServices.get_filtered_books(
+        db, title=title, author=author,
+        category=category, min_pages=min_pages,
+        max_pages=max_pages,
+        available=available,
+        skip=skip,
+        limit=limit
+        )
