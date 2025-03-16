@@ -46,3 +46,6 @@ app.add_middleware(ExceptionHandlingMiddleware)
 
 config_CORS_auth(app)
 config_CORS(app)
+
+
+
