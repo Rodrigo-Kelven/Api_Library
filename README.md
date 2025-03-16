@@ -33,7 +33,7 @@ Para rodar o projeto, rode o seguinte comando
   chmod +x exec.sh
   ./exec.sh
 ```
-Instale e ative uma venv 
+Instale e ative uma venv (Opcional
 
 ```bash
   python3 -m venv venv
