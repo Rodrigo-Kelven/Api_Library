@@ -30,7 +30,8 @@ Para rodar o projeto, rode o seguinte comando
 
 ```bash
   cd Api_Books/src
-  fastapi dev main.py
+  chmod +x exec.sh
+  ./exec.sh
 ```
 Instale e ative uma venv 
 
