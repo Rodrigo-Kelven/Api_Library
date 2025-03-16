@@ -11,7 +11,7 @@ app = FastAPI(
     title="FastAPI",
     debug=True,
     summary="Api Library",
-    version="0.1.3",
+    version="0.1.9",
     description="A Library Management System API is a RESTful interface designed to facilitate the management of library resources, including books, members, and transactions. It provides endpoints for adding, updating, retrieving, and deleting information related to library operations, ensuring efficient data handling and user interaction"
 )
 
