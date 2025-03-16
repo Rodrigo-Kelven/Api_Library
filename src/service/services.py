@@ -23,8 +23,13 @@ class BooksServices:
         await db.refresh(db_item)  # Use await para operações assíncronas       
 
         # Armazena o novo livro no cache Redis
+        start_time = time.time()
         book_data = jsonable_encoder(db_item)
         await redis_client.set(f"book:{db_item.id}", json.dumps(book_data), ex=3600)  # Armazena por 1 hora
+        end_time = time.time()
+
+        execution_time = end_time - start_time
+        logging.info(msg=f"##### Tempo de execução em register book: {execution_time} segundos #####")
 
         return db_item
 
@@ -32,15 +37,20 @@ class BooksServices:
     @staticmethod
     async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
         # Tenta obter o livro do cache Redis
+        start_time = time.time()
         cached_book = await redis_client.get(f"book:{book_id}")
+        end_time = time.time()
+
+        execution_time = end_time - start_time
 
         if cached_book:
-            logging.info(msg="### Pego no redis ###")
+            logging.info(msg="##### Retornado do redis #####")
+            logging.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
             # Se o livro estiver no cache, retorne-o como um dicionário
             return json.loads(cached_book.decode('utf-8'))  # Decodifica e converte de volta para dicionário
 
         # Se não estiver no cache, consulta o banco de dados
-        logging.info(msg="### Pego no db ###")
+        logging.info(msg="##### Retornado do Banco de dados #####")
         start_time = time.time()
         result = await db.execute(select(Book).where(Book.id == book_id))
         book = result.scalars().first()
@@ -48,7 +58,7 @@ class BooksServices:
 
         execution_time = end_time - start_time
 
-        print(f"Tempo de execução: {execution_time} segundos")
+        logging.info(msg=f"##### Tempo de execução em get book for ID: {execution_time} segundos #####")
 
         if book is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
@@ -64,6 +74,7 @@ class BooksServices:
     async def update_book(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
         result = await db.execute(select(Book).where(Book.id == book_id))
         db_book = result.scalars().first()
+
         if db_book is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
 
@@ -73,14 +84,21 @@ class BooksServices:
         db_book.author = book.author
         db_book.category = book.category
 
+        start_time = time.time()
+
         await db.commit()
         await db.refresh(db_book)
+
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logging.info(msg=f"##### Tempo de execução em update: {execution_time} segundos #####")
 
         # Atualiza o livro no cache Redis
         book_data = jsonable_encoder(db_book)
         await redis_client.set(f"book:{book_id}", json.dumps(book_data), ex=3600)  # Armazena por 1 hora
-
+    
         return db_book
+
 
 
     @staticmethod
@@ -89,9 +107,15 @@ class BooksServices:
         db_book = result.scalars().first()
         if db_book is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
+        
+        start_time = time.time()
 
         await db.delete(db_book)
         await db.commit()
+
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logging.info(msg=f"##### Tempo de execução em delete: {execution_time} segundos #####")
 
         # Remove o livro do cache Redis
         await redis_client.delete(f"book:{book_id}")
@@ -108,9 +132,12 @@ class BooksServices:
         consult = select(Book).offset(skip).limit(limit)
         # executa no db a consulta realiza e armazena o resultado
         result = await db.execute(consult)
-
+        start_time = time.time()
         # Verifica se não há livros encontrados
         book = result.scalars().all()
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logging.info(msg=f"##### Tempo de execução em busca com limites {skip}/{limit}: {execution_time} segundos #####")
         if not book: # Verifica se a lista de livros está vazia
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found")
         return book  # Retorna uma lista de itens
@@ -126,8 +153,8 @@ class BooksServices:
         end_time = time.time()
 
         execution_time = end_time - start_time
+        logging.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
 
-        print(f"##### Tempo de execução: {execution_time} segundos #####")
         if not book: # Verifica se a lista de livros está vazia
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found")
         return book  # Retorna uma lista de itens
