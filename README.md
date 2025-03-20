@@ -10,8 +10,17 @@
 
 # Versao 0.2.0
 
-Esta simples API foi desenvolvida com o intuito de praticar e entender a construção e execução de uma API com um simples crud de Books e Users.
-De simples compreensão e construção esta API lhe retorna os dados que lhe foi fornecidos.
+## Descrição
+
+### A ConnectHub é uma API Library projetada para facilitar a integração de diferentes serviços e plataformas, permitindo que desenvolvedores criem soluções robustas e escaláveis. Com uma arquitetura modular e flexível, a ConnectHub oferece uma ampla gama de funcionalidades para gerenciar dados, realizar autenticação, processar pagamentos e muito mais.
+## Recursos Principais
+
+  - Autenticação e Autorização: Implemente autenticação OAuth e JWT para proteger suas aplicações.
+  - Gerenciamento de Dados: Acesse e manipule dados de forma eficiente com nossas APIs de CRUD.
+  - Processamento de Pagamentos: Integre facilmente gateways de pagamento para transações seguras.
+  - Notificações e Mensagens: Envie notificações push e e-mails personalizados aos usuários.
+  - Análise e Monitoramento: Acompanhe o desempenho da sua aplicação com métricas detalhadas.
+
 
 ## Instalação
 
