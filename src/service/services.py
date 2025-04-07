@@ -12,6 +12,8 @@ import logging
 
 import time
 
+# talvez seja nescessario criar um crud para daca tabela do banco de dados
+
 class BooksServices:
 
 
