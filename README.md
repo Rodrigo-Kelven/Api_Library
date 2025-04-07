@@ -57,6 +57,6 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull r
 ## Autor
 
 - [@Rodrigo-Kelven](https://github.com/Rodrigo-Kelven)
-- [Wesley Thiago](https://github.com/Wesley0071)
+- [@Wesley Thiago](https://github.com/Wesley0071)
 - [Nicolas Marcuse](https://github.com/N1kkoo)
 
