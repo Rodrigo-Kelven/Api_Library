@@ -23,19 +23,28 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api-library/v1/auth/login") 
 
 
+# CORS configurado, caso tenha mais implementacoes, documente!
 def config_CORS_auth(app):
-    # paths onde o front ira enviar dados para o backend
+    from fastapi.middleware.cors import CORSMiddleware
+
     origins = [
         "http://localhost.tiangolo.com",
         "https://localhost.tiangolo.com",
-        "http://localhost",
+        "http://localhost:5173/", # react
         "http://localhost:8080",
     ]
 
     app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
+    expose_headers=["X-Custom-Header"],
+    max_age=3600,
     )
+"""
+Ao permitir todas as origens (allow_origins=["*"]), você deve ter cuidado,
+pois isso pode expor sua API a riscos de segurança.
+É sempre melhor restringir as origens permitidas ao mínimo necessário
+"""
