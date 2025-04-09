@@ -10,6 +10,8 @@
 
 # Versao 1.1.5
 
+![Minha Imagem](images/Library.png)
+
 ## Descrição
 
 ### A Api Library  é uma API Library projetada para facilitar a integração de diferentes serviços e plataformas, permitindo que desenvolvedores criem soluções robustas e escaláveis. Com uma arquitetura modular e flexível, a Api Library  oferece uma ampla gama de funcionalidades para gerenciar dados, realizar autenticação, processar pagamentos e muito mais.
