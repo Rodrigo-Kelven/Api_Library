@@ -10,4 +10,4 @@ services:
       - redis-data:/data  # Volume persistente para armazenar dados do Redis
 
 volumes:
-  redis-data:  # Define o volume persistente
+  redis-data:     # Define o volume persistente para o Redis
