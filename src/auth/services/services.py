@@ -22,6 +22,7 @@ class ServicesAuthUser:
                     detail="Incorrect email or password",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
+            
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(
                 data={"sub": user.email, "role": user.role}, 
