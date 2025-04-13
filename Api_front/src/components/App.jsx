@@ -1,23 +1,23 @@
 import React from 'react';
-import api from './Api';
-import Criar_user from './teste';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Criar_user from './CreateUser';
+import Login from './Login';
 
-const UserRegister = () => {
-  const addUser = async (userData) => {
-    try {
-      await api.post('/users', userData);
-      alert('Usuário cadastrado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao cadastrar usuário', error);
-    }
-  };
+const App = () => {
 
   return (
     <div>
- 
-      <Criar_user addUser={addUser} />
+      <Router>
+        <Routes>
+          <Route path='/' element={<Criar_user/>}/>
+          <Route path='/login' element={<Login/>}/>
+          
+        </Routes>
+
+      </Router>
+    
     </div>
   );
 };
 
-export default UserRegister;
+export default App;

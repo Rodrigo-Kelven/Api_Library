@@ -23,7 +23,8 @@ const Criar_user = () => {
           formData.append("password", form.password);
 
           try{
-               await Api.post("/api-library/v1/auth/users/", formData);
+               const response = await Api.post("/api-library/v1/auth/users/", formData);
+               console.log("Resposta da API:", response);
                alert("Usuário cadastrado com sucesso!!!")
           }catch(error){
                console.error("Erro ao cadastrar: ", error.response?.data || error.message);

@@ -12,13 +12,13 @@ def config_CORS(app):
     ]
 
     app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["Content-Type", "Authorization"],
-    expose_headers=["X-Custom-Header"],
-    max_age=3600,
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_headers=["Content-Type", "Authorization"],
+        expose_headers=["X-Custom-Header"],
+        max_age=3600,
     )
 """
 Ao permitir todas as origens (allow_origins=["*"]), você deve ter cuidado,
