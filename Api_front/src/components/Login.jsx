@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-  const pagina = useNavigate()
+  const pagina = useNavigate() // useNavigate usada para
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState({ //usa o hook useState para armazenar os dados
     email: '',  // Usando 'username' como email, conforme esperado no backend
     password: '',
   });
@@ -21,25 +21,26 @@ const Login = () => {
     e.preventDefault();
 
     // Preparar os parâmetros para envio (username como email)
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(); // Classe do javaScript que permite manipular parâmetros de uma Url
     params.append("username", form.email);  // Aqui 'username' é o email do usuário
     params.append("password", form.password);
 
     try {
-      // Realizar a requisição POST para login
-      const response = await Api.post("/api-library/v1/auth/login/", params, {
+      
+      const response = await Api.post("/api-library/v1/auth/login/", params, { // Realizar a requisição POST para login
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",  //diz que os dados serão passados no cabeçalhos em vez da url do site
         },
+
       });
 
-      // Verificar se o token foi retornado na resposta
-      if (response.data.access_token) {
-        // Armazenar o token no localStorage para uso futuro
-        localStorage.setItem("authToken", response.data.access_token);
-        alert("Login realizado com sucesso!");
+      
+      if (response.data.access_token) { // Verificar se o token foi retornado na resposta
+       
+        localStorage.setItem("authToken", response.data.access_token);  // Vai armazenar o token no localStorage para uso futuro
+        alert("Login realizado com sucesso!"); //mensagem de sucesso caso login realizado
 
-        pagina("/")
+        pagina("/") //rota para onde o usuário será redirecionado quando fizer login
       } else {
         alert("Erro: Token não retornado!");
       }
@@ -48,29 +49,15 @@ const Login = () => {
     } catch (error) {
       // Tratar possíveis erros
       console.error("Erro ao realizar login: ", error.response?.data || error.message);
-      alert("Erro ao realizar login. Verifique as credenciais.");
     }
   };
 
   return (
     <>
       <form onSubmit={EnviarDado}>
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          placeholder="Email"
-          onChange={Mudar_valor}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          placeholder="Senha"
-          onChange={Mudar_valor}
-          required
-        />
+        <input type="email"  name="email" value={form.email} placeholder="Email" onChange={Mudar_valor} required />
+        <input type="password"  name="password" value={form.password} placeholder="Senha" onChange={Mudar_valor} required />  
+        
         <button type="submit">Logar</button>
       </form>
     </>
