@@ -23,4 +23,4 @@ async def get_db():
 
 # Configuração do Redis
 REDIS_URL = "redis://localhost:6379"  # URL do Redis
-redis_client = aioredis.from_url(REDIS_URL)
+redis_client = aioredis.from_url(REDIS_URL) 

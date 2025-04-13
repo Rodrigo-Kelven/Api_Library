@@ -9,6 +9,7 @@ def config_CORS(app):
         "https://localhost.tiangolo.com",
         "http://localhost:5173/", # react
         "http://localhost:8080",
+        
     ]
 
     app.add_middleware(
