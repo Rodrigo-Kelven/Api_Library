@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status, Form
 from src.auth.schemas.user import Token, User, UserResponse, UserResponseEdit
 from src.auth.models.users import UserDB
 from src.config.config_db import AsyncSessionLocal
-from src.config.config import logger
+from src.config.config import auth_logger
 from sqlalchemy.future import select  # Para consultas assíncronas
 from sqlalchemy.exc import IntegrityError
 from typing import Annotated
@@ -31,6 +31,7 @@ class ServicesAuthUser:
             # mas sim o username passado em login !!!!
             user = await authenticate_user_by_email(db, form_data.username, form_data.password)
             if not user:
+                auth_logger.warning(msg="Usuario nao encontrado.")
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Incorrect email or password",
@@ -41,6 +42,7 @@ class ServicesAuthUser:
                 data={"sub": user.email, "role": user.role}, 
                 expires_delta=access_token_expires
             )
+            auth_logger.info(msg=f"Usuário {form_data.username} logado com sucesso.")
             return Token(access_token=access_token, token_type="bearer")
 
 
@@ -57,11 +59,13 @@ class ServicesAuthUser:
                 # Verifica se o username já está registrado
                 user_with_username = await db.execute(select(UserDB).where(UserDB.username == username))
                 if user_with_username.scalars().first():
+                    auth_logger.warning(msg="Username já registrado!")
                     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username já registrado!")
 
                 # Verifica se o email já está registrado
                 user_with_email = await db.execute(select(UserDB).where(UserDB.email == email))
                 if user_with_email.scalars().first():
+                    auth_logger.warning(msg="Email já registrado!")
                     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email já registrado!")
 
                 # Criação do usuário com senha criptografada
@@ -77,11 +81,12 @@ class ServicesAuthUser:
                 db.add(db_user)
                 await db.commit()  # Commit para persistir a transação
                 await db.refresh(db_user)  # Refresh para garantir que o db_user tenha os dados mais recentes
-
+                auth_logger.info(msg=f"Usuario registrado: {username}.")
                 return db_user
 
             except IntegrityError:
                 await db.rollback()  # Reverte a transação em caso de erro
+                auth_logger.warning(msg="Erro ao criar usuário. Verifique os dados fornecidos.")
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Erro ao criar usuário. Verifique os dados fornecidos.")
 
             # except Exception as e:
@@ -103,6 +108,7 @@ class ServicesAuthUser:
             db_user = await get_user(db, email)
 
             if not db_user:
+                auth_logger.error(msg="Usuário não encontrado!")
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado!")
             
             for key, value in user.dict(exclude_unset=True).items():
@@ -110,6 +116,7 @@ class ServicesAuthUser:
             
             await db.commit()
             await db.refresh(db_user)
+            auth_logger.info(msg=f"Usuário {user.username} atualizado!")
             return db_user
         
 
@@ -119,8 +126,10 @@ class ServicesAuthUser:
             db_user = await get_user(db, current_user.email)
 
             if not db_user:
+                auth_logger.error(msg="Usuário não encontrado!")
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado!")
             
             await db.delete(db_user)
             await db.commit()
+            auth_logger.info(msg=f"Usuário {current_user.username} deletado com sucesso!")
             return {"detail": f"Usuário {current_user.username} deletado com sucesso."}
