@@ -8,11 +8,13 @@ from src.config.config import config_CORS
 
 
 app = FastAPI(
-    title="FastAPI",
+    title="API Library with FastAPI",
     debug=True,
     summary="Api Library",
-    version="0.1.9",
-    description="A Library Management System API is a RESTful interface designed to facilitate the management of library resources, including books, members, and transactions. It provides endpoints for adding, updating, retrieving, and deleting information related to library operations, ensuring efficient data handling and user interaction"
+    version="0.1.6",
+    description="A Api Library é uma API Library projetada para facilitar a integração de diferentes serviços e plataformas," \
+    "permitindo que desenvolvedores criem soluções robustas e escaláveis. Com uma arquitetura modular e flexível," \
+    "a Api Library oferece uma ampla gama de funcionalidades para gerenciar dados, realizar autenticação, processar pagamentos e muito mais."
 )
 
 
