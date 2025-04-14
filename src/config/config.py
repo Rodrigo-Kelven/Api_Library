@@ -1,5 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
+from logging.handlers import RotatingFileHandler
 import logging
+import os
 
 
 # CORS configurado, caso tenha mais implementacoes, documente!
@@ -28,42 +30,6 @@ pois isso pode expor sua API a riscos de segurança.
 """
 
 
-import logging
-
-# Diretório dos logs
-log_format = '%(asctime)s - %(levelname)s - %(message)s'
-
-# Handler para logs de INFO
-info_handler = logging.FileHandler("logs/info.log")
-info_handler.setLevel(logging.INFO)
-info_handler.setFormatter(logging.Formatter(log_format))
-
-# Handler para logs de WARNING
-warning_handler = logging.FileHandler("logs/warning.log")
-warning_handler.setLevel(logging.WARNING)
-warning_handler.setFormatter(logging.Formatter(log_format))
-
-# Handler para logs de ERROR
-error_handler = logging.FileHandler("logs/error.log")
-error_handler.setLevel(logging.ERROR)
-error_handler.setFormatter(logging.Formatter(log_format))
-
-# Console handler opcional
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(logging.Formatter(log_format))
-
-# Logger principal
-logger = logging.getLogger("app_logger")
-logger.setLevel(logging.DEBUG)  # Nível mínimo para o logger aceitar
-
-# Adiciona todos os handlers ao logger
-logger.addHandler(info_handler)
-logger.addHandler(warning_handler)
-logger.addHandler(error_handler)
-logger.addHandler(console_handler)
-
-
 """
 ### Resumo visual
 ### Nível configurado	Logs que ele aceita
@@ -75,7 +41,7 @@ logger.addHandler(console_handler)
 * CRITICAL	CRITICAL
 """
 
-from logging.handlers import RotatingFileHandler
+os.makedirs("logs", exist_ok=True)
 # Formato padrão
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
