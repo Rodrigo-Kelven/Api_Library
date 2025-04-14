@@ -9,7 +9,6 @@ import redis.asyncio as aioredis
 import json
 from fastapi.encoders import jsonable_encoder
 import logging
-
 import time
 
 # talvez seja nescessario criar um crud para daca tabela do banco de dados
@@ -18,7 +17,7 @@ class BooksServices:
 
 
     @staticmethod
-    async def create_book(book: BookCreate, db: AsyncSession = Depends(get_db)):
+    async def create_book_Service(book: BookCreate, db: AsyncSession = Depends(get_db)):
         db_item = Book(**book.dict())
         db.add(db_item)
         await db.commit()  # Use await para operações assíncronas
@@ -37,7 +36,7 @@ class BooksServices:
 
 
     @staticmethod
-    async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
+    async def get_book_Service(book_id: int, db: AsyncSession = Depends(get_db)):
         # Tenta obter o livro do cache Redis
         start_time = time.time()
         cached_book = await redis_client.get(f"book:{book_id}")
@@ -73,7 +72,7 @@ class BooksServices:
 
 
     @staticmethod
-    async def update_book(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
+    async def update_book_Service(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
         result = await db.execute(select(Book).where(Book.id == book_id))
         db_book = result.scalars().first()
 
@@ -104,7 +103,7 @@ class BooksServices:
 
 
     @staticmethod
-    async def delete_book(book_id: int, db: AsyncSession = Depends(get_db)):
+    async def delete_book_Service(book_id: int, db: AsyncSession = Depends(get_db)):
         result = await db.execute(select(Book).where(Book.id == book_id))
         db_book = result.scalars().first()
         if db_book is None:
@@ -126,7 +125,7 @@ class BooksServices:
     
 
     @staticmethod
-    async def get_all_with_limit_books(db: AsyncSession = Depends(get_db), skip: int = 0, limit: int = 20):
+    async def get_all_with_limit_books_Service(db: AsyncSession = Depends(get_db), skip: int = 0, limit: int = 20):
         # Executa a consulta para selecionar todos os livros
         #result = await db.execute(select(Book))
 
@@ -146,7 +145,7 @@ class BooksServices:
     
 
     @staticmethod
-    async def get_all_books(db: AsyncSession = Depends(get_db)):
+    async def get_all_books_Service(db: AsyncSession = Depends(get_db)):
         # Executa a consulta para selecionar todos os livros
         start_time = time.time()
         result = await db.execute(select(Book))
@@ -163,7 +162,7 @@ class BooksServices:
     
 
     @staticmethod
-    async def get_filtered_books(
+    async def get_filtered_books_Service(
         db: AsyncSession,
         title: Optional[str] = None,
         author: Optional[str] = None,

@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy import delete
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from src.auth.auth import get_current_user
 from src.config.config_db import get_db
 from src.schemas.books import Book, BookCreate, BookUpdate
 from src.service.services import BooksServices
@@ -19,8 +20,12 @@ routes_books = APIRouter()
         name="Route register books",
         response_model=Book
         )
-async def create_item(book: BookCreate, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.create_book(book, db)
+async def create_item(
+    book: BookCreate,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ):  
+    return await BooksServices.create_book_Service(book, db)
 
 
 # adicionar pesquisa por: author, nome, titulo, categoria, lingua, quantidade de paginas
@@ -31,8 +36,11 @@ async def create_item(book: BookCreate, db: AsyncSession = Depends(get_db)):
         name="Route search book for id",
         response_model=Book,
         )
-async def read_item(book_id: int, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.get_book(book_id, db)
+async def read_item(
+    book_id: int,
+    db: AsyncSession = Depends(get_db)
+    ):
+    return await BooksServices.get_book_Service(book_id, db)
 
 
 # somente admin podem ter acesso
@@ -43,8 +51,13 @@ async def read_item(book_id: int, db: AsyncSession = Depends(get_db)):
         name="Route update books",
         response_model=Book
         )
-async def update_item(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.update_book(book_id, book, db)
+async def update_item(
+    book_id: int,
+    book: BookUpdate,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ):
+    return await BooksServices.update_book_Service(book_id, book, db)
 
 # somente admin podem ter acesso
 @routes_books.delete(
@@ -53,8 +66,12 @@ async def update_item(book_id: int, book: BookUpdate, db: AsyncSession = Depends
         description="Router delete book for ID",
         name="Route delete book",
         )
-async def delete_item(book_id: int, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.delete_book(book_id, db)
+async def delete_item(
+    book_id: int,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ):
+    return await BooksServices.delete_book_Service(book_id, db)
 
 
 # implementar limite de busca EX: limit 100, para evitar pesquisas repetitivas no DB, 
@@ -73,7 +90,7 @@ async def read_items(
     skip: int = 0,
     limit: int = 20
     ):
-    return await BooksServices.get_all_with_limit_books(db, skip=skip, limit=limit)
+    return await BooksServices.get_all_with_limit_books_Service(db, skip=skip, limit=limit)
 
 
 @routes_books.get(
@@ -84,7 +101,7 @@ async def read_items(
         response_model=list[Book]
         )
 async def read_items(db: AsyncSession = Depends(get_db)):
-    return await BooksServices.get_all_books(db)
+    return await BooksServices.get_all_books_Service(db)
 
 
 
@@ -107,7 +124,7 @@ async def read_books(
     db: AsyncSession = Depends(get_db)
     ):
 
-    return await BooksServices.get_filtered_books(
+    return await BooksServices.get_filtered_books_Service(
         db, title=title, author=author,
         category=category, min_pages=min_pages,
         max_pages=max_pages,

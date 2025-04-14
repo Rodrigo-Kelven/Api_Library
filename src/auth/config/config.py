@@ -25,7 +25,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api-library/v1/auth/login")
 
 # CORS configurado, caso tenha mais implementacoes, documente!
 def config_CORS_auth(app):
-    from fastapi.middleware.cors import CORSMiddleware
+    
 
     origins = [
         "http://localhost.tiangolo.com",

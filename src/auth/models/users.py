@@ -1,6 +1,8 @@
-from sqlalchemy import Column,  String, Boolean, Enum as SQLAlchemyEnum
+from sqlalchemy import Column,  String, Boolean, Enum as SQLAlchemyEnum, Integer
 from src.auth.config.config_db import Base_auth as Base
 from enum import Enum as PyEnum
+
+
 
 
 # Definindo os papéis possíveis (Role)
@@ -14,7 +16,8 @@ class Role(PyEnum):
 class UserDB(Base):
     __tablename__ = "users"
 
-    username = Column(String, primary_key=True, unique=True, index=True, doc="Username do usuario, deve ser unico!")
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, primary_key=False, unique=True, index=False, doc="Username do usuario, deve ser unico!")
     full_name = Column(String, index=True, doc="Nome completo do user")
     email = Column(String, unique=True, index=True, doc="Email do usuario, deve ser unico!")
     hashed_password = Column(String, doc="A senha do usuario é salva criptografada")

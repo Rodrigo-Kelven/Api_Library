@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status, Form
 from src.auth.schemas.user import Token, User, UserResponse, UserResponseCreate, UserResponseEdit
 from src.config.config_db import AsyncSessionLocal
 from typing import List, Annotated
-from src.auth.auth import *
+from src.auth.auth import OAuth2PasswordRequestForm, get_current_active_user, check_permissions, Role
 from src.auth.services.services import ServicesAuthUser
 
 
@@ -18,12 +18,12 @@ routes_auth_auten = APIRouter()
     name="Route login user"
 )
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
-    return await ServicesAuthUser.login_user(form_data)
+    return await ServicesAuthUser.login_user_Service(form_data)
 
 
 # Rota para obter informações do usuário autenticado
 @routes_auth_auten.get(
-    path="/users/me/",
+    path="/user/me/",
     status_code=status.HTTP_202_ACCEPTED,
     response_model=UserResponse,
     response_description="Informations user",
@@ -35,20 +35,21 @@ async def read_users_me(current_user: Annotated[User , Depends(get_current_activ
     return current_user
 
 # Rota para obter itens do usuário autenticado
-# somente teste
+# desativada
 @routes_auth_auten.get(
     path="/users/me/items/",
     status_code=status.HTTP_202_ACCEPTED,
     response_description="Informations items user",
     description="Route get items user",
-    name="Route get items user"
+    name="Route get items user",
+    deprecated=True
 )
 async def read_own_items(current_user: Annotated[User , Depends(get_current_active_user)]):
     return [{"item_id": "Foo", "owner": current_user.username}]
 
 # Rota para criar um novo usuário
 @routes_auth_auten.post(
-    path="/users/",
+    path="/user/register/",
     status_code=status.HTTP_201_CREATED,
     response_model=UserResponseCreate,
     response_description="Create user",
@@ -61,39 +62,46 @@ async def create_user(
     full_name: str = Form(...),
     password: str = Form(...),
 ):
-    return await ServicesAuthUser.create_user(username, email, full_name, password)
+    return await ServicesAuthUser.create_user_Service(
+        username, email, full_name, password)
 
 
 # Rota para listar todos os usuários (somente admin)
+# desativada
 @routes_auth_auten.get(
     path="/users/",
     status_code=status.HTTP_202_ACCEPTED,
     response_model=List[UserResponse],
     response_description="Users",
     description="Route list users",
-    name="Route list users"
+    name="Route list users",
+    deprecated=True
 )
 async def get_users(current_user: Annotated[User , Depends(get_current_active_user)]):
-    return await ServicesAuthUser.get_users(current_user)
+    return await ServicesAuthUser.get_users_Service(current_user)
 
 # Rota para atualizar informações do usuário
 @routes_auth_auten.put(
-    path="/users/{username}",
+    path="/user/update-account-me/",
     status_code=status.HTTP_201_CREATED,
     response_model=UserResponse,
     response_description="Update informations user",
     description="Route update informations user",
     name="Route update user"
 )
-async def update_user(username: str, user: UserResponseEdit, current_user: Annotated[User , Depends(get_current_active_user)]):
-    return await ServicesAuthUser.update_user(username, user, current_user)
+async def update_user(
+    email: str,
+    user: UserResponseEdit,
+    current_user: Annotated[User , Depends(get_current_active_user)]
+    ):
+    return await ServicesAuthUser.update_user_Service(email, user, current_user)
 
 # Rota para deletar a conta do usuário
 @routes_auth_auten.delete(
-    path="/users/delete-account-me/",
+    path="/user/delete-account-me/",
     status_code=status.HTTP_204_NO_CONTENT,
     response_description="Informations delete account",
     name="Route delete user"
 )
 async def delete_user(current_user: Annotated[User  , Depends(get_current_active_user)]):
-    return await ServicesAuthUser.delete_account(current_user)
+    return await ServicesAuthUser.delete_account_Service(current_user)
