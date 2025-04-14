@@ -17,10 +17,16 @@ class BooksServices:
 
     @staticmethod
     async def create_book_Service(book: BookCreate, db: AsyncSession = Depends(get_db)):
+        # Armazena o novo livro no PostGree
+        start_time_postgree = time.time()
         db_item = Book(**book.dict())
         db.add(db_item)
         await db.commit()  # Use await para operações assíncronas
-        await db.refresh(db_item)  # Use await para operações assíncronas       
+        await db.refresh(db_item)  # Use await para operações assíncronas
+        end_time_postgree = time.time()
+
+        execution_time_postgree = end_time_postgree - start_time_postgree
+        logger.info(msg=f"##### Tempo de execução em register book in Postgree: {execution_time_postgree} segundos #####")
 
         # Armazena o novo livro no cache Redis
         start_time = time.time()
@@ -29,7 +35,7 @@ class BooksServices:
         end_time = time.time()
 
         execution_time = end_time - start_time
-        logger.info(msg=f"##### Tempo de execução em register book: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução em register book in Redis: {execution_time} segundos #####")
 
         return db_item
 
@@ -74,6 +80,7 @@ class BooksServices:
     async def update_book_Service(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
         result = await db.execute(select(Book).where(Book.id == book_id))
         db_book = result.scalars().first()
+        
 
         if db_book is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
@@ -197,8 +204,13 @@ class BooksServices:
             query = query.where(Book.available == available)
 
         # Executa a consulta
+        start_time_postgree = time.time()
         result = await db.execute(query.offset(skip).limit(limit))
         books = result.scalars().all()
+        end_time_postgree = time.time()
+
+        execution_time_postgree = end_time_postgree - start_time_postgree
+        logger.info(msg=f"##### Tempo de execução em register book in Postgree: {execution_time_postgree} segundos #####")
 
         if not books:  # Verifica se a lista de livros está vazia
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found!")
