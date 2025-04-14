@@ -8,10 +8,11 @@ from sqlalchemy.future import select
 import redis.asyncio as aioredis
 import json
 from fastapi.encoders import jsonable_encoder
-import logging
+from src.config.config import logger
 import time
 
-# talvez seja nescessario criar um crud para daca tabela do banco de dados
+
+
 
 class BooksServices:
 
@@ -30,7 +31,7 @@ class BooksServices:
         end_time = time.time()
 
         execution_time = end_time - start_time
-        logging.info(msg=f"##### Tempo de execução em register book: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução em register book: {execution_time} segundos #####")
 
         return db_item
 
@@ -45,13 +46,13 @@ class BooksServices:
         execution_time = end_time - start_time
 
         if cached_book:
-            logging.info(msg="##### Retornado do redis #####")
-            logging.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
+            logger.info(msg="##### Retornado do redis #####")
+            logger.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
             # Se o livro estiver no cache, retorne-o como um dicionário
             return json.loads(cached_book.decode('utf-8'))  # Decodifica e converte de volta para dicionário
 
         # Se não estiver no cache, consulta o banco de dados
-        logging.info(msg="##### Retornado do Banco de dados #####")
+        logger.info(msg="##### Retornado do Banco de dados #####")
         start_time = time.time()
         result = await db.execute(select(Book).where(Book.id == book_id))
         book = result.scalars().first()
@@ -59,7 +60,7 @@ class BooksServices:
 
         execution_time = end_time - start_time
 
-        logging.info(msg=f"##### Tempo de execução em get book for ID: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução em get book for ID: {execution_time} segundos #####")
 
         if book is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
@@ -92,7 +93,7 @@ class BooksServices:
 
         end_time = time.time()
         execution_time = end_time - start_time
-        logging.info(msg=f"##### Tempo de execução em update: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução em update: {execution_time} segundos #####")
 
         # Atualiza o livro no cache Redis
         book_data = jsonable_encoder(db_book)
@@ -116,7 +117,7 @@ class BooksServices:
 
         end_time = time.time()
         execution_time = end_time - start_time
-        logging.info(msg=f"##### Tempo de execução em delete: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução em delete: {execution_time} segundos #####")
 
         # Remove o livro do cache Redis
         await redis_client.delete(f"book:{book_id}")
@@ -138,7 +139,8 @@ class BooksServices:
         book = result.scalars().all()
         end_time = time.time()
         execution_time = end_time - start_time
-        logging.info(msg=f"##### Tempo de execução em busca com limites {skip}/{limit}: {execution_time} segundos #####")
+        print("\n")
+        logger.info(msg=f"##### Tempo de execução em busca com limites {skip}/{limit}: {execution_time} segundos #####")
         if not book: # Verifica se a lista de livros está vazia
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found")
         return book  # Retorna uma lista de itens
@@ -154,7 +156,7 @@ class BooksServices:
         end_time = time.time()
 
         execution_time = end_time - start_time
-        logging.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
+        logger.info(msg=f"##### Tempo de execução: {execution_time} segundos #####")
 
         if not book: # Verifica se a lista de livros está vazia
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found")

@@ -48,3 +48,17 @@ Ao permitir todas as origens (allow_origins=["*"]), você deve ter cuidado,
 pois isso pode expor sua API a riscos de segurança.
 É sempre melhor restringir as origens permitidas ao mínimo necessário
 """
+
+import logging
+
+# Configuração do logging
+logging.basicConfig(
+    level=logging.DEBUG,  # Define o nível de log (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Formato da mensagem de log
+    handlers=[
+        logging.StreamHandler(),  # Envia logs para o console
+        logging.FileHandler("app.log")  # Envia logs para um arquivo
+    ]
+)
+
+logger = logging.getLogger(__name__)  # Cria um logger para o módulo atual
