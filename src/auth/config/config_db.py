@@ -7,7 +7,13 @@ import logging
 DATABASE_URL = "postgresql+asyncpg://user:password@localhost/fastapi_db"
 
 # Criação do engine assíncrono
-engine_auth = create_async_engine(DATABASE_URL, echo=True)
+engine_auth = create_async_engine(
+    DATABASE_URL,
+    echo=True,
+    pool_size=20,  # Tamanho do pool de conexões
+    max_overflow=0,  # Conexões adicionais permitidas
+    pool_pre_ping=True, # Verifica se a conexão está ativa antes de se conectar
+)
 
 # Criação do gerenciador de sessões assíncronas
 AsyncSessionLocal = sessionmaker(bind=engine_auth, class_=AsyncSession, expire_on_commit=False)
