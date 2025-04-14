@@ -7,7 +7,7 @@ import redis.asyncio as aioredis
 Base_books = declarative_base()
 
 # Use aiosqlite para SQLite
-DATABASE_URL = "sqlite+aiosqlite:///./Banco_de_Dados/books_db.db"
+DATABASE_URL = "sqlite+aiosqlite:///./Banco_de_Dados/books_db.db" 
 
 # Criação do engine assíncrono
 engine_books = create_async_engine(DATABASE_URL, echo=True)
