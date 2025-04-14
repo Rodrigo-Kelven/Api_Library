@@ -6,8 +6,9 @@
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-%23C72C41.svg?style=for-the-badge&logo=sqlalchemy&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white) 
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) 
 
-# Versao 1.1.6
+# Versao 1.1.10
 
 ![Minha Imagem](images/Library.png)
 
@@ -77,7 +78,7 @@ Para rodar o projeto, rode o seguinte comando
   chmod +x exec.sh
   ./exec.sh
 ```
-Instale e ative uma venv (Opcional
+Instale e ative uma venv (Opcional).
 
 ```bash
   python3 -m venv venv

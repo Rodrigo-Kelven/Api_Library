@@ -30,7 +30,6 @@ class UserResponse(BaseModel):
 
 class UserResponseEdit(BaseModel):
     username: str
-    email: str
     full_name: str
 
 
