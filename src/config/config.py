@@ -1,4 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+
 
 # CORS configurado, caso tenha mais implementacoes, documente!
 def config_CORS(app):
@@ -25,7 +27,6 @@ pois isso pode expor sua API a riscos de segurança.
 É sempre melhor restringir as origens permitidas ao mínimo necessário
 """
 
-import logging
 
 # Configuração do logging
 logging.basicConfig(
