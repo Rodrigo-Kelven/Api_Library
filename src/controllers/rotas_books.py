@@ -24,7 +24,8 @@ async def create_item(
     book: BookCreate,
     current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
     db: AsyncSession = Depends(get_db),
-    ):  
+    ): 
+    # realiza o registro do livro
     return await BooksServices.create_book_Service(book, db)
 
 
@@ -40,6 +41,7 @@ async def read_item(
     book_id: int,
     db: AsyncSession = Depends(get_db)
     ):
+    # realiza um get passando o id do livro
     return await BooksServices.get_book_Service(book_id, db)
 
 
@@ -57,6 +59,7 @@ async def update_item(
     current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
     db: AsyncSession = Depends(get_db),
     ):
+    # realiza update de livros com o id passado
     return await BooksServices.update_book_Service(book_id, book, db)
 
 # somente admin podem ter acesso
@@ -71,6 +74,7 @@ async def delete_item(
     current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
     db: AsyncSession = Depends(get_db),
     ):
+    # realiza delete of books
     return await BooksServices.delete_book_Service(book_id, db)
 
 
@@ -90,6 +94,7 @@ async def read_items(
     skip: int = 0,
     limit: int = 20
     ):
+    # realiza um query que busca todos os livros com os parametros passasados
     return await BooksServices.get_all_with_limit_books_Service(db, skip=skip, limit=limit)
 
 
@@ -101,6 +106,8 @@ async def read_items(
         response_model=list[Book]
         )
 async def read_items(db: AsyncSession = Depends(get_db)):
+
+    # realiza um query para pegar todos os livros da tabela
     return await BooksServices.get_all_books_Service(db)
 
 
@@ -121,9 +128,10 @@ async def read_books(
     available: Optional[bool] = Query(None, description="Filtrar por disponibilidade"),
     skip: int = 0,
     limit: int = 10,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db) # realiza a conexao com o banco de dados e procura na tebela
     ):
 
+    # realiza a filtragem no services
     return await BooksServices.get_filtered_books_Service(
         db, title=title, author=author,
         category=category, min_pages=min_pages,
