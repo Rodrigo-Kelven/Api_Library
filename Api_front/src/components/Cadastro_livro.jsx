@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Api from "./Api";
 
-const Criar_user = () => {
+const Criar_Livro = () => {
      const [form, setForm] = useState({
           title: '',
           description: '',
@@ -50,4 +50,4 @@ const Criar_user = () => {
 
 }
 
-export default Criar_user;
+export default Criar_Livro;
