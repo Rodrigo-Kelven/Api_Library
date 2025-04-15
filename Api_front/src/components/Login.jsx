@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Api from "./Api";
 import { useNavigate } from "react-router-dom";
+import "../statics/Login.css"
 
 const Login = () => {
 
@@ -53,14 +54,27 @@ const Login = () => {
   };
 
   return (
-    <>
-      <form onSubmit={EnviarDado}>
-        <input type="email"  name="email" value={form.email} placeholder="Email" onChange={Mudar_valor} required />
-        <input type="password"  name="password" value={form.password} placeholder="Senha" onChange={Mudar_valor} required />  
-        
+    <div className="login-container">
+      <form className="login-form" onSubmit={EnviarDado}>
+        <input
+          type="email"
+          name="email"
+          value={form.email}
+          placeholder="Email"
+          onChange={Mudar_valor}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          value={form.password}
+          placeholder="Senha"
+          onChange={Mudar_valor}
+          required
+        />
         <button type="submit">Logar</button>
       </form>
-    </>
+    </div>
   );
 };
 
