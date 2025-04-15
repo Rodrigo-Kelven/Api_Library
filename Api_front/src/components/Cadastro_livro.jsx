@@ -26,19 +26,12 @@ const Cadastrar_Livro = () => {
           e.preventDefault();
 
           try{
-               const response = await Api.post("/api-library/v1/books/", date, {
-                    headers: {
-                         "Content-Type": "application/json"
-                    }
-               });
+               const response = await Api.post("/api-library/v1/books/", date,);
                console.log("Resposta da API:", response);
                alert("Usuário cadastrado com sucesso!!!")
           }catch(error){
                console.error("Erro ao cadastrar: ", error.response?.data || error.message);
           }
-
-
-
      };
 
      return(
