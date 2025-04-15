@@ -1,67 +1,53 @@
 import React, { useEffect, useState } from "react";
-import "../statics/Aluguel-Devolver.css";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import "../statics/Aluguel-Devolver.css"
 
 const livrosMock = [
   { id: 1, title: "Dom Casmurro", author: "Machado de Assis", category: "Romance", available: true, pages: 256 },
-  { id: 2, title: "1984", author: "George Orwell", category: "Ficção", available: true, pages: 328 },
-  { id: 3, title: "O Pequeno Príncipe", author: "Saint-Exupéry", category: "Fábula", available: true, pages: 96 },
+  { id: 2, title: "O Cortiço", author: "Aluísio Azevedo", category: "Romance", available: false, pages: 320 },
+  { id: 3, title: "Memórias Póstumas de Brás Cubas", author: "Machado de Assis", category: "Romance", available: true, pages: 288 },
+  { id: 4, title: "Capitães da Areia", author: "Jorge Amado", category: "Ficção", available: true, pages: 224 },
+  { id: 5, title: "Grande Sertão: Veredas", author: "Guimarães Rosa", category: "Literatura Brasileira", available: false, pages: 592 },
+  { id: 6, title: "A Moreninha", author: "Joaquim Manuel de Macedo", category: "Romance", available: true, pages: 192 },
+  { id: 7, title: "Vidas Secas", author: "Graciliano Ramos", category: "Ficção", available: true, pages: 180 },
+  { id: 8, title: "O Guarani", author: "José de Alencar", category: "Romance", available: false, pages: 300 },
+  { id: 9, title: "Quincas Borba", author: "Machado de Assis", category: "Romance", available: true, pages: 320 },
+  { id: 10, title: "Iracema", author: "José de Alencar", category: "Romance", available: true, pages: 160 }
 ];
 
 const ListarLivros = () => {
   const [livros, setLivros] = useState([]);
-  const [filtros, setFiltros] = useState({
-    title: "",
-    author: "",
-    category: "",
-    available: "",
-  });
 
   useEffect(() => {
-    buscarLivros();
+    setLivros(livrosMock); // Carrega os livros mock na primeira renderização
   }, []);
 
-  const buscarLivros = () => {
-    let resultado = livrosMock;
+  const renderizar = useNavigate();
 
-    if (filtros.title) {
-      resultado = resultado.filter((livro) =>
-        livro.title.toLowerCase().includes(filtros.title.toLowerCase())
-      );
-    }
+  const logout = () =>{
+    localStorage.removeItem("authToken" );
+    Swal.fire({
+      icon: "success",
+      title: "Vocẽ saiu da sua conta!!",
+      text: "Você será redirecionado para tela de login",
+      timer: 2000,
+      showConfirmButton: false,
+    })
+    renderizar("/login");
+  }
 
-    if (filtros.author) {
-      resultado = resultado.filter((livro) =>
-        livro.author.toLowerCase().includes(filtros.author.toLowerCase())
-      );
-    }
+  const logado = localStorage.getItem("authToken") !== null;
 
-    if (filtros.category) {
-      resultado = resultado.filter((livro) =>
-        livro.category.toLowerCase().includes(filtros.category.toLowerCase())
-      );
-    }
-
-    if (filtros.available !== "") {
-      resultado = resultado.filter(
-        (livro) => livro.available === (filtros.available === "true")
-      );
-    }
-
-    setLivros(resultado);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFiltros({ ...filtros, [name]: value });
-  };
-
-  const aplicarFiltros = () => {
-    buscarLivros();
-  };
+  console.log("Usuário logado?", logado )
 
   const alugarLivro = (id) => {
     const atualizados = livros.map((livro) => {
       if (livro.id === id && livro.available) {
+        Swal.fire({
+          icon: "success",
+          title: "Livro alugado",
+        })
         return { ...livro, available: false };
       }
       return livro;
@@ -81,42 +67,7 @@ const ListarLivros = () => {
 
   return (
     <div className="aluguelContainer">
-      <h2>Livros Cadastrados</h2>
-
-      <div className="filtrosContainer">
-        <input
-          type="text"
-          name="title"
-          placeholder="Título"
-          value={filtros.title}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="author"
-          placeholder="Autor"
-          value={filtros.author}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Categoria"
-          value={filtros.category}
-          onChange={handleInputChange}
-        />
-        <select
-          name="available"
-          value={filtros.available}
-          onChange={handleInputChange}
-        >
-          <option value="">Todos</option>
-          <option value="true">Disponível</option>
-          <option value="false">Indisponível</option>
-        </select>
-        <button onClick={aplicarFiltros}>Filtrar</button>
-      </div>
-
+      <h2 className="title">Livros Cadastrados</h2>
       <table className="livrosTable" border="1">
         <thead>
           <tr>
@@ -138,33 +89,40 @@ const ListarLivros = () => {
                 <td>{livro.available ? "Sim" : "Não"}</td>
                 <td>{livro.pages}</td>
                 <td>
-                  {livro.available ? (
-                    <button
-                      className="acoesButton acoesButton--alugar"
-                      onClick={() => alugarLivro(livro.id)}
-                    >
-                      Alugar
-                    </button>
+                  
+                  { livro.available ? ( //se validação for true ele faz o comando abaixo
+                    <button className="alugar" onClick={() => {
+                      if(logado){
+                          alugarLivro(livro.id)
+                        }else{
+                          Swal.fire({
+                            icon: "error",
+                            title: "Usuário não logado!!",
+                            text: "você sera redirecionado para a tela de login",
+                            timer: 2000,
+                            showConfirmButton: false,
+                          }).then(setTimeout(() =>{
+                            renderizar("/login"); 
+                          }, 2000))
+                        }                  
+                    }} 
+                    >Alugar</button>
+                         
+                         
                   ) : (
-                    <button
-                      className="acoesButton acoesButton--devolver"
-                      onClick={() => devolverLivro(livro.id)}
-                    >
-                      Devolver
-                    </button>
+                    <button className="devolver" onClick={() => devolverLivro(livro.id)}>Devolver</button>
                   )}
                 </td>
               </tr>
             ))
-          ) : (
+          ) : ( // senão ele faz esse comando 
             <tr>
-              <td colSpan="6" className="semLivros">
-                Nenhum livro encontrado
-              </td>
+              <td colSpan="6" className="semLivros">Nenhum livro encontrado</td>
             </tr>
           )}
         </tbody>
       </table>
+      <button className="logout" onClick={logout}>Sair</button>
     </div>
   );
 };

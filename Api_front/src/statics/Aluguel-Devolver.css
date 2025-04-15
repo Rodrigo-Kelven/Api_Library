@@ -74,30 +74,49 @@
   }
   
   /* Os Botões de ação */
-  .acoesButton {
+  .alugar{
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-  }
-  
-  .acoesButton--alugar {
     background-color: #28a745; /* Verde = Alugar */
     color: white;
   }
   
-  .acoesButton--devolver {
+  
+  .devolver {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    background-color: #dc3545; /* Vermelho = Devolver */
+    color: white;
+  }
+
+  .logout{
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
     background-color: #dc3545; /* Vermelho = Devolver */
     color: white;
   }
   
-  .acoesButton--alugar:hover {
+  .alugar:hover {
     background-color: #218838;
   }
   
-  .acoesButton--devolver:hover {
+  .devolver:hover {
+    background-color: #c82333;
+  }
+
+  .logout:hover{
     background-color: #c82333;
   }
   

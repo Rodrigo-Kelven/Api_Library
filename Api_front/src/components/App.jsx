@@ -5,6 +5,7 @@ import Login from './Login';
 import Cadastrar_Livro from './Cadastro_livro';
 import ListarLivros from './listar-livros';
 import AlugarLivros from './algue-devo';
+import Home from './home';
 
 const App = () => {
 
@@ -12,7 +13,8 @@ const App = () => {
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<Criar_user/>}/>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/cadastro' element={<Criar_user/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/C-livro' element={<Cadastrar_Livro/>}/>
           <Route path='/listar-B' element={<ListarLivros/>}/>
