@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../statics/Aluguel-Devolver.css";
 
 const livrosMock = [
   { id: 1, title: "Dom Casmurro", author: "Machado de Assis", category: "Romance", available: true, pages: 256 },
@@ -79,14 +80,36 @@ const ListarLivros = () => {
   };
 
   return (
-    <div>
+    <div className="aluguelContainer">
       <h2>Livros Cadastrados</h2>
 
-      <div style={{ marginBottom: "20px" }}>
-        <input type="text" name="title" placeholder="Título" value={filtros.title} onChange={handleInputChange} />
-        <input type="text" name="author" placeholder="Autor" value={filtros.author} onChange={handleInputChange} />
-        <input type="text" name="category" placeholder="Categoria" value={filtros.category} onChange={handleInputChange} />
-        <select name="available" value={filtros.available} onChange={handleInputChange}>
+      <div className="filtrosContainer">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          value={filtros.title}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="author"
+          placeholder="Autor"
+          value={filtros.author}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="category"
+          placeholder="Categoria"
+          value={filtros.category}
+          onChange={handleInputChange}
+        />
+        <select
+          name="available"
+          value={filtros.available}
+          onChange={handleInputChange}
+        >
           <option value="">Todos</option>
           <option value="true">Disponível</option>
           <option value="false">Indisponível</option>
@@ -94,7 +117,7 @@ const ListarLivros = () => {
         <button onClick={aplicarFiltros}>Filtrar</button>
       </div>
 
-      <table border="1" style={{ width: "100%" }}>
+      <table className="livrosTable" border="1">
         <thead>
           <tr>
             <th>Título</th>
@@ -115,21 +138,29 @@ const ListarLivros = () => {
                 <td>{livro.available ? "Sim" : "Não"}</td>
                 <td>{livro.pages}</td>
                 <td>
-                  {
-                    (() => {
-                      if (livro.available) {
-                        return <button onClick={() => alugarLivro(livro.id)}>Alugar</button>;
-                      } else {
-                        return <button onClick={() => devolverLivro(livro.id)}>Devolver</button>;
-                      }
-                    })()
-                  }
+                  {livro.available ? (
+                    <button
+                      className="acoesButton acoesButton--alugar"
+                      onClick={() => alugarLivro(livro.id)}
+                    >
+                      Alugar
+                    </button>
+                  ) : (
+                    <button
+                      className="acoesButton acoesButton--devolver"
+                      onClick={() => devolverLivro(livro.id)}
+                    >
+                      Devolver
+                    </button>
+                  )}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6">Nenhum livro encontrado</td>
+              <td colSpan="6" className="semLivros">
+                Nenhum livro encontrado
+              </td>
             </tr>
           )}
         </tbody>

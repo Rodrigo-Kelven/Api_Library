@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import Api from "./Api";
+import "../statics/CreateUser.css";
+
 
 const Criar_user = () => {
      const [form, setForm] = useState({
@@ -34,18 +36,46 @@ const Criar_user = () => {
 
      };
 
-     return(
-          <>
-               <form onSubmit={EnviarDado}>
-                    <input type="text" name="username" value={form.username} placeholder="Digite seu nome" onChange={Mudar_valor} required/>
-                    <input type="email" name="email" value={form.email} placeholder="email" onChange={Mudar_valor} required />
-                    <input type="text" name="full_name" placeholder="Nome completo" value={form.full_name} onChange={Mudar_valor} required />
-                    <input type="password" name="password" value={form.password} placeholder="Senha" onChange={Mudar_valor} required />
-
-                    <button type="submit">Cadastrar</button>
-               </form>     
-          </>
-     )
+     return (
+          <div className="createUserContainer">
+            <form className="createUserForm" onSubmit={EnviarDado}>
+              <input
+                type="text"
+                name="username"
+                value={form.username}
+                placeholder="Digite seu nome de usuário"
+                onChange={Mudar_valor}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                placeholder="Digite seu email"
+                onChange={Mudar_valor}
+                required
+              />
+              <input
+                type="text"
+                name="full_name"
+                value={form.full_name}
+                placeholder="Digite seu nome completo"
+                onChange={Mudar_valor}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                placeholder="Digite sua senha"
+                onChange={Mudar_valor}
+                required
+              />
+      
+              <button type="submit">Cadastrar</button>
+            </form>
+          </div>
+        );
 
 }
 
