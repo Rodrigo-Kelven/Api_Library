@@ -41,7 +41,7 @@ const Login = () => {
         localStorage.setItem("authToken", response.data.access_token);  // Vai armazenar o token no localStorage para uso futuro
         alert("Login realizado com sucesso!"); //mensagem de sucesso caso login realizado
 
-        pagina("") //rota para onde o usuário será redirecionado quando fizer login
+        pagina("/C-livro") //rota para onde o usuário será redirecionado quando fizer login
       } else {
         alert("Erro: Token não retornado!");
       }
