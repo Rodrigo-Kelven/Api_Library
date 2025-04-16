@@ -8,7 +8,7 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) 
 
-# Versao 1.1.11
+# Versao 1.1.12
 
 ![Minha Imagem](images/Library.png)
 
