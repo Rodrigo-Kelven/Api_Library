@@ -1,10 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from src.config.config_db import Base_books, engine_books
 from src.controllers.all_routes import all_routes
 from src.auth.auth import LogRequestMiddleware, ExceptionHandlingMiddleware
 from src.auth.config.config import config_CORS_auth
 from src.auth.config.config_db import engine_auth, Base_auth
-from src.config.config import config_CORS
+from src.config.config import config_CORS, rate_limit_Service
 import logging
 
 
@@ -63,3 +63,6 @@ app.add_middleware(ExceptionHandlingMiddleware)
 # Configuração de CORS
 config_CORS_auth(app)
 config_CORS(app)
+rate_limit_Service(app)
+
+

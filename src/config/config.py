@@ -1,7 +1,46 @@
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from logging.handlers import RotatingFileHandler
 import logging
 import os
+
+
+
+
+def rate_limit_Service(app):
+
+
+    # Manipulador de Exceções para Rate Limit Exceeded
+    @app.exception_handler(RateLimitExceeded)
+    async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
+        # Verificando se o atributo 'headers' existe
+        headers = getattr(exc, 'headers', None)
+        
+        # Se headers existir, tenta pegar o 'Retry-After'
+        if headers:
+            retry_after = headers.get("Retry-After")
+        else:
+            retry_after = None
+        
+        # Caso o 'Retry-After' não esteja disponível, define o tempo de espera padrão
+        if retry_after:
+            wait_time = int(retry_after)
+        else:
+            wait_time = 60  # Tempo de espera padrão em segundos
+
+        return JSONResponse(
+            status_code=429,
+            content={
+                "detail": f"Limite de requisições excedido. Tente novamente em {wait_time} segundos."
+            },
+            headers={"Retry-After": str(wait_time)},
+        )
+
+
 
 
 # CORS configurado, caso tenha mais implementacoes, documente!
