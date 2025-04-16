@@ -4,12 +4,8 @@ from src.controllers.all_routes import all_routes
 from src.auth.auth import LogRequestMiddleware, ExceptionHandlingMiddleware
 from src.auth.config.config import config_CORS_auth
 from src.auth.config.config_db import engine_auth, Base_auth
-from src.config.config import config_CORS, rate_limit_Service
-import logging
+from src.config.config import config_CORS, rate_limit_Service, db_logger
 
-
-# Configuração básica do logging
-logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title="API Library with FastAPI",
@@ -29,30 +25,22 @@ async def startup_event():
         # Criação das tabelas no banco de dados de usuários
         async with engine_auth.begin() as conn:
             await conn.run_sync(Base_auth.metadata.create_all)
-            logging.info(
-                "#####################" \
-                " Tabela UserDB criada com sucesso. "\
-                "#####################"
-            )
+            db_logger.info("Tabela UserDB criada com sucesso.")
 
         # Criação das tabelas no banco de dados de livros
         async with engine_books.begin() as conn:
             await conn.run_sync(Base_books.metadata.create_all)
-            logging.info(
-                "#####################" \
-                " Tabela BooksDB criada com sucesso. "\
-                "#####################"
-            )
+            db_logger.info("Tabela BooksDB criada com sucesso.")
 
     except Exception as e:
-        logging.error(f"#### Erro ao criar tabelas: {str(e)} ####")
+        db_logger.error(f"Erro ao criar tabelas: {str(e)}.")
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
     await engine_books.dispose()
     await engine_auth.dispose()
-    logging.info("Conexões com os bancos de dados encerradas.")
+    db_logger.info("Conexões com os bancos de dados encerradas.")
 
 # Adiciona o middleware ao FastAPI
 app.add_middleware(LogRequestMiddleware)
@@ -63,6 +51,7 @@ app.add_middleware(ExceptionHandlingMiddleware)
 # Configuração de CORS
 config_CORS_auth(app)
 config_CORS(app)
+# configuracao do rate limit
 rate_limit_Service(app)
 
 

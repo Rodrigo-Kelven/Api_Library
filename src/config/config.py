@@ -10,9 +10,8 @@ import os
 
 
 
-
+# rate limit configurado, caso altere algo, documente.
 def rate_limit_Service(app):
-
 
     # Manipulador de Exceções para Rate Limit Exceeded
     @app.exception_handler(RateLimitExceeded)
@@ -99,4 +98,5 @@ def setup_logger(name, log_file, level=logging.INFO):
 # Loggers separados
 app_logger = setup_logger("app_logger", "logs/app.log", logging.INFO)
 auth_logger = setup_logger("auth_logger", "logs/auth.log", logging.INFO)
-db_logger = setup_logger("db_logger", "logs/db.log", logging.ERROR)
+#db_logger = setup_logger("db_logger", "logs/db.log", logging.ERROR)
+db_logger = setup_logger("db_logger", "logs/db.log", logging.INFO)
