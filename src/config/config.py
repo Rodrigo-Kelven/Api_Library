@@ -1,3 +1,4 @@
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI, Request
@@ -100,3 +101,16 @@ app_logger = setup_logger("app_logger", "logs/app.log", logging.INFO)
 auth_logger = setup_logger("auth_logger", "logs/auth.log", logging.INFO)
 #db_logger = setup_logger("db_logger", "logs/db.log", logging.ERROR)
 db_logger = setup_logger("db_logger", "logs/db.log", logging.INFO)
+
+
+
+# Configurar o log de Request e Response
+logging.basicConfig(level=logging.INFO)
+
+
+class LogRequestMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        logging.info(f"Requisição recebida: {request.method} {request.url}")
+        response = await call_next(request)
+        logging.info(f"Resposta enviada com status {response.status_code}")
+        return response

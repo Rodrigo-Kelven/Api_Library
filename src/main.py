@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request
 from src.config.config_db import Base_books, engine_books
 from src.controllers.all_routes import all_routes
-from src.auth.auth import LogRequestMiddleware, ExceptionHandlingMiddleware
+from src.auth.auth import ExceptionHandlingMiddleware
+from src.config.config import LogRequestMiddleware
 from src.auth.config.config import config_CORS_auth
 from src.auth.config.config_db import engine_auth, Base_auth
 from src.config.config import config_CORS, rate_limit_Service, db_logger
