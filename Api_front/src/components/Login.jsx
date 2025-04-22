@@ -48,7 +48,7 @@ const Login = () => {
           })//mensagem de sucesso caso login realizado
 
           setTimeout(() =>{
-            pagina("/Devo_aluga");
+            pagina("/alugar/livros");
 
           }, 2000); //rota para onde o usuário será redirecionado quando fizer login
       } else {
@@ -92,7 +92,7 @@ const Login = () => {
           />
           <div className="container_n_conta">
             <p className="p">Não tem conta?</p>
-            <a className="n_conta" href="/cadastro">Cadastre-se Aqui</a>
+            <a className="n_conta" href="/register">Cadastre-se Aqui</a>
           </div>
           <button type="submit">Logar</button>
         </form>
