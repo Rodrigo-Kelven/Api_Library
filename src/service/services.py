@@ -1,14 +1,14 @@
 from typing import List, Optional
-from src.schemas.books import BookCreate, BookUpdate
-from src.config.config_db import get_db, redis_client
+from schemas.books import BookCreate, BookUpdate
+from config.config_db import get_db, redis_client
 from fastapi import Depends, HTTPException, status
-from src.models.books import Book
+from models.books import Book
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 import redis.asyncio as aioredis
 import json
 from fastapi.encoders import jsonable_encoder
-from src.config.config import app_logger
+from config.config import app_logger
 import time
 
 

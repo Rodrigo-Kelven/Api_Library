@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy import delete
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.auth.auth import get_current_user
-from src.config.config_db import get_db
-from src.schemas.books import Book, BookCreate, BookUpdate
-from src.service.services import BooksServices
+from auth.auth import get_current_user
+from config.config_db import get_db
+from schemas.books import Book, BookCreate, BookUpdate
+from service.services import BooksServices
 
 
 routes_books = APIRouter()

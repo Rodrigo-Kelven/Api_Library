@@ -1,7 +1,7 @@
-from src.controllers.rota_home import rota_home
-from src.controllers.rotas_books import routes_books
-from src.auth.controllers.route_user import routes_auth_auten
-from src.auth.controllers.works import router_email
+from controllers.rota_home import rota_home
+from controllers.rotas_books import routes_books
+from auth.controllers.route_user import routes_auth_auten
+from auth.controllers.works import router_email
 
 from enum import Enum
 

@@ -1,12 +1,12 @@
 from fastapi import Depends, HTTPException, status, Form
-from src.auth.schemas.user import Token, User, UserResponse, UserResponseEdit
-from src.auth.models.users import UserDB
-from src.config.config_db import AsyncSessionLocal
-from src.config.config import auth_logger
+from auth.schemas.user import Token, User, UserResponse, UserResponseEdit
+from auth.models.users import UserDB
+from config.config_db import AsyncSessionLocal
+from config.config import auth_logger
 from sqlalchemy.future import select  # Para consultas assíncronas
 from sqlalchemy.exc import IntegrityError
 from typing import Annotated
-from src.auth.auth import (
+from auth.auth import (
     OAuth2PasswordRequestForm,
     authenticate_user_by_email,
     timedelta,

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, status, Form
-from src.auth.schemas.user import Token, User, UserResponse, UserResponseCreate, UserResponseEdit
-from src.config.config_db import AsyncSessionLocal
+from auth.schemas.user import Token, User, UserResponse, UserResponseCreate, UserResponseEdit
+from config.config_db import AsyncSessionLocal
 from typing import List, Annotated
-from src.auth.auth import OAuth2PasswordRequestForm, get_current_active_user, check_permissions, Role
-from src.auth.services.services import ServicesAuthUser
+from auth.auth import OAuth2PasswordRequestForm, get_current_active_user, check_permissions, Role
+from auth.services.services import ServicesAuthUser
 
 
 routes_auth_auten = APIRouter()
