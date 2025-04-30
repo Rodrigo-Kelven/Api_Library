@@ -74,9 +74,7 @@ Instale as dependências para rodar o Frontend
 Para rodar o projeto, rode o seguinte comando
 
 ```bash
-  cd Api_Books/src
-  chmod +x exec.sh
-  ./exec.sh
+  docker-compose up
 ```
 Instale e ative uma venv (Opcional).
 
