@@ -7,14 +7,9 @@ from src.auth.auth import get_current_user
 from src.config.config_db import get_db
 from src.schemas.books import Book, BookCreate, BookUpdate
 from src.service.services import BooksServices
-
-from slowapi import Limiter
-from slowapi.util import get_remote_address
+from src.config.config import limiter
 
 routes_books = APIRouter()
-
-# decoracor do rate limit
-limiter = Limiter(key_func=get_remote_address)
 
 
 # somente admin podem ter acesso

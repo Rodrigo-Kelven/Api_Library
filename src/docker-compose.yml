@@ -20,6 +20,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Volume persistente para armazenar dados do PostgreSQL
 
+
   pgadmin:
     image: dpage/pgadmin4
     environment:

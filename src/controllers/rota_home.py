@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Query, status, Request
 from slowapi import Limiter
-from slowapi.util import get_remote_address
+from src.config.config import limiter
 
 
 rota_home = APIRouter()
 
-# decoracor do rate limit
-limiter = Limiter(key_func=get_remote_address)
 
 @rota_home.get(
         path="/status",
