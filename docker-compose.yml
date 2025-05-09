@@ -52,7 +52,7 @@ services:
     ports:
       - "8000:8000"  # Mapeando a porta 8000 do container para a 8000 do host
     volumes:
-      - ./src:/src  # Mapeando o código fonte da aplicação do host para o container
+      - ./src:/core/src  # Mapeando o código fonte da aplicação do host para o container
     depends_on:
       - db
       - redis

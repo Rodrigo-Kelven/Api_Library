@@ -120,5 +120,6 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
 # decoracor do rate limit de auth
 limiter = Limiter(
     key_func=get_remote_address,
-    enabled=True,
+    default_limits=["5 per minute"],
+    storage_uri="redis://my-redis:6379/2",
     )
