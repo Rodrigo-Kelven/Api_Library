@@ -34,6 +34,7 @@ class BooksServices:
             end_time_postgree = time.time() # fim da contagem
             execution_time_postgree = end_time_postgree - start_time_postgree
             db_logger.info(msg=f"Tempo de execução em register book in Postgree: {execution_time_postgree} segundos.")
+            app_logger.info(msg=f"Tempo de execução em register book in Postgree: {execution_time_postgree} segundos.")
 
             # Armazena o novo livro no cache Redis
             start_time = time.time()
@@ -43,6 +44,7 @@ class BooksServices:
 
             execution_time = end_time - start_time
             db_logger.info(msg=f"Tempo de execução em register book in Redis: {execution_time} segundos.")
+            app_logger.info(msg=f"Tempo de execução em register book in Redis: {execution_time} segundos.")
             
 
             return db_item
@@ -71,6 +73,7 @@ class BooksServices:
         execution_time = end_time - start_time
 
         db_logger.info(msg=f"Tempo de execução em get book for ID: {execution_time} segundos.")
+        app_logger.info(msg=f"Tempo de execução em get book for ID: {execution_time} segundos.")
 
         if book is None:
             app_logger.error(msg="Book not found!")
@@ -88,10 +91,12 @@ class BooksServices:
         result = await db.execute(select(Book).where(Book.id == book_id))
         db_book = result.scalars().first()
         db_logger.info(msg=f"Livro de id: {book_id} encontrado!")
+        app_logger.info(msg=f"Livro de id: {book_id} encontrado!")
         
 
         if db_book is None:
             db_logger.error(msg="Book not found!")
+            app_logger.error(msg="Book not found!")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
         
         start_time = time.time()
@@ -111,11 +116,13 @@ class BooksServices:
         end_time = time.time()
         execution_time = end_time - start_time
         db_logger.info(msg=f"Tempo de execução em update: {execution_time} segundos.")
+        app_logger.info(msg=f"Tempo de execução em update: {execution_time} segundos.")
 
         # Atualiza o livro no cache Redis
         book_data = jsonable_encoder(db_book)
         await redis_client.set(f"book:{book_id}", json.dumps(book_data), ex=3600)  # Armazena por 1 hora
         db_logger.info(msg=f"Livro de id: {book_id} atualizado no Redis!")
+        app_logger.info(msg=f"Livro de id: {book_id} atualizado no Redis!")
 
         return db_book
 
@@ -129,6 +136,7 @@ class BooksServices:
 
         if db_book is None:
             db_logger.error(msg="Book not found!")
+            app_logger.error(msg="Book not found!")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found!")
 
         start_time = time.time()
@@ -137,18 +145,22 @@ class BooksServices:
             await db.delete(db_book)
             await db.commit()
             db_logger.info(msg=f"Livro de id: {book_id} deletado!")
+            app_logger.info(msg=f"Livro de id: {book_id} deletado!")
         except Exception as e:
             await db.rollback()  # Reverte as alterações na sessão
             db_logger.error(msg=f"Erro ao deletar livro no PostgreSQL: {str(e)}")
+            app_logger.error(msg=f"Erro ao deletar livro no PostgreSQL: {str(e)}")
             raise HTTPException(status_code=500, detail="Erro ao deletar livro no banco de dados.")
 
         end_time = time.time()
         execution_time = end_time - start_time
         db_logger.info(msg=f"Tempo de execução em delete: {execution_time} segundos.")
+        app_logger.info(msg=f"Tempo de execução em delete: {execution_time} segundos.")
 
         # Remove o livro do cache Redis
         await redis_client.delete(f"book:{book_id}")
         db_logger.info(msg=f"Livro de id: {book_id} deletado do Redis!")
+        app_logger.info(msg=f"Livro de id: {book_id} deletado do Redis!")
 
         return {"detail": "Book deleted!"}
     
@@ -165,13 +177,19 @@ class BooksServices:
         start_time = time.time()
         # Verifica se não há livros encontrados
         book = result.scalars().all()
+
         db_logger.info(msg="Livros retornados!")
+        app_logger.info(msg="Livros retornados!")
+
         end_time = time.time()
         execution_time = end_time - start_time
         print("\n")
+
         db_logger.info(msg=f"Tempo de execução em busca com limites {skip}/{limit}: {execution_time} segundos.")
+        app_logger.info(msg=f"Tempo de execução em busca com limites {skip}/{limit}: {execution_time} segundos.")
         if not book: # Verifica se a lista de livros está vazia
             db_logger.error(msg="Book not found!")
+            app_logger.error(msg="Book not found!")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found")
         return book  # Retorna uma lista de itens
     
@@ -182,12 +200,15 @@ class BooksServices:
         start_time = time.time()
         result = await db.execute(select(Book))
         db_logger.info(msg="Livros retornados!")
+        app_logger.info(msg="Livros retornados!")
+
         # Verifica se não há livros encontrados
         book = result.scalars().all()
         end_time = time.time()
 
         execution_time = end_time - start_time
         db_logger.info(msg=f"Tempo de execução: {execution_time} segundos.")
+        app_logger.info(msg=f"Tempo de execução: {execution_time} segundos.")
 
         if not book: # Verifica se a lista de livros está vazia
             db_logger.error(msg="Book not found!")
@@ -238,9 +259,11 @@ class BooksServices:
 
         execution_time_postgree = end_time_postgree - start_time_postgree
         db_logger.info(msg=f"Tempo de execução em register book in Postgree: {execution_time_postgree} segundos.")
+        app_logger.info(msg=f"Tempo de execução em register book in Postgree: {execution_time_postgree} segundos.")
 
         if not books:  # Verifica se a lista de livros está vazia
             db_logger.error(msg="Book not found!")
+            app_logger.error(msg="Book not found!")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No book found!")
 
         return books  # Retorna uma lista de itens

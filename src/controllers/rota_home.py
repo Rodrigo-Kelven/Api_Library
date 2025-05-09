@@ -41,4 +41,4 @@ async def home(
         )
 @limiter.limit("40/minute")
 async def home(request: Request):
-    return  {"Hello":"World"}
+    return  {"Hello":"World ;)"}

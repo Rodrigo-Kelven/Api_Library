@@ -117,6 +117,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
         logging.info(f"Resposta enviada com status {response.status_code}")
         return response
 
+
 # decoracor do rate limit de auth
 limiter = Limiter(
     key_func=get_remote_address,

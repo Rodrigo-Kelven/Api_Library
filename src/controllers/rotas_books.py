@@ -32,6 +32,7 @@ async def create_item(
     return await BooksServices.create_book_Service(book, db)
 
 
+
 # adicionar pesquisa por: author, nome, titulo, categoria, lingua, quantidade de paginas
 @routes_books.get(
         path="/books/{book_id}",
@@ -48,6 +49,7 @@ async def read_item(
     ):
     # realiza um get passando o id do livro
     return await BooksServices.get_book_Service(book_id, db)
+
 
 
 # somente admin podem ter acesso
@@ -69,6 +71,8 @@ async def update_item(
     # realiza update de livros com o id passado
     return await BooksServices.update_book_Service(book_id, book, db)
 
+
+
 # somente admin podem ter acesso
 @routes_books.delete(
         path="/books/{book_id}",
@@ -87,6 +91,7 @@ async def delete_item(
     return await BooksServices.delete_book_Service(book_id, db)
 
 
+
 @routes_books.get(
         path="/books-search-limit/",
         status_code=status.HTTP_200_OK,
@@ -103,6 +108,7 @@ async def read_items(
     ):
     # realiza um query que busca todos os livros com os parametros passasados
     return await BooksServices.get_all_with_limit_books_Service(db, skip=skip, limit=limit)
+
 
 
 @routes_books.get(
