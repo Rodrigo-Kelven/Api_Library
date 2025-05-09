@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: my-redis # nome do container redis
+    networks:
+      - app-network  # Conectando à rede personalizada
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped  # Garantir que o container reinicie automaticamente se falhar
+
+  db:
+    image: postgres:17
+    container_name: my-db # nome do container do banco
+    networks:
+      - app-network  # Conectando à rede personalizada
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fastapi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped  # Garantir que o container reinicie automaticamente se falhar
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: my-pgadmin
+    networks:
+      - app-network  # Conectando à rede personalizada
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    restart: unless-stopped  # Garantir que o container reinicie automaticamente se falhar
+
+  # Exemplo de serviço para construir um contêiner a partir de um Dockerfile
+  app:
+    build:
+      context: .  # Caminho para o diretório onde está o seu Dockerfile
+      dockerfile: Dockerfile  # Se você tiver um nome de Dockerfile diferente, pode especificá-lo aqui
+    container_name: my-app
+    networks:
+      - app-network
+    ports:
+      - "8000:8000"  # Mapeando a porta 8000 do container para a 8000 do host
+    volumes:
+      - ./src:/src  # Mapeando o código fonte da aplicação do host para o container
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped  # Garantir que o container reinicie automaticamente se falhar
+
+networks:
+  app-network:  # Define uma rede personalizada para os contêineres
+    driver: bridge  # Usando o driver padrão bridge para a rede
+
+volumes:
+  redis-data:     # Volume persistente para o Redis
+  postgres_data:  # Volume persistente para o PostgreSQL
