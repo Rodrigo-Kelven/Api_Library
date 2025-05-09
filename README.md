@@ -61,21 +61,18 @@ Instale o projeto
   git clone https://github.com/Rodrigo-Kelven/Api_Books/
   cd Api_Books/src
 ```
-Instale as dependências para rodar o Backend
-
-```bash
-  pip instal -r requirements.txt
-```
-Instale as dependências para rodar o Frontend
-
-```bash
-  npm install
-```
 Para rodar o projeto, rode o seguinte comando
 
 ```bash
   docker-compose up
 ```
+
+Instale as dependências para rodar o Frontend
+
+```bash
+  npm install
+```
+
 Instale e ative uma venv (Opcional).
 
 ```bash
