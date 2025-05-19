@@ -35,6 +35,7 @@ def config_CORS_auth(app):
     ]
 
     app.add_middleware(
+
         CORSMiddleware,
         allow_origins=origins,
         allow_credentials=True,

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import Api from "./Api";
-import "../statics/CadastroLivro.css"
 
 const Cadastrar_Livro = () => {
      const [form, setForm] = useState({

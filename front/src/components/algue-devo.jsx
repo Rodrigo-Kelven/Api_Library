@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../statics/Aluguel-Devolver.css"
 
 const livrosMock = [
   { id: 1, title: "Dom Casmurro", author: "Machado de Assis", category: "Romance", available: true, pages: 256 },

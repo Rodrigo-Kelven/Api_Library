@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Api from "./Api"; // Instância do axios
+import "../statics/ListarLivros.css"; // Estilos CSS
 
 const ListarLivros = () => {
   const [livros, setLivros] = useState([]);

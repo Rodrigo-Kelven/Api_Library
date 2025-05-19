@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import Api from "./Api";
+import "../statics/CreateUser.css"
 
 const Criar_user = () => {
      const [form, setForm] = useState({

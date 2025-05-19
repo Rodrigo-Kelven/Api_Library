@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Api from "./Api";
 import { useNavigate } from "react-router-dom";
+import "../statics/Login.css"; // Importando o CSS para estilização
 
 const Login = () => {
 

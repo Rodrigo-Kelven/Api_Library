@@ -1,0 +1,83 @@
+
+
+/* Estilo da Pagina */
+.login_container {
+    display: flex;
+    justify-content: center;
+    background-color: aliceblue;
+    background-position-x: left right;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    overflow: hidden;
+
+  }
+  
+  /* Estilo do Forms */
+  .login_form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    z-index: 1000;
+  }
+
+  .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(67, 196, 251);
+  }
+  
+  /* Estilo dos inputs */
+  .login_form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo do botão */
+  .login_form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .container_n_conta{
+    display: flex;
+    justify-content: center;  
+  }
+
+  .p{
+    margin: 0;
+    padding: 0;
+  }
+
+  .n_conta{
+    margin-left: 10px;
+    text-decoration: none;
+    color:#007bff;
+  }
+  
+  .login_form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .login_form input,
+  .login_form button {
+    margin-top: 10px;
+  }

@@ -5,8 +5,10 @@ import redis.asyncio as aioredis
 
 
 
+
 # URL do banco de dados PostgreSQL
 DATABASE_URL = "postgresql+asyncpg://user:password@localhost/fastapi_db"
+
 
 # Criação do engine assíncrono
 engine_books = create_async_engine(
@@ -30,4 +32,6 @@ async def get_db():
 
 # Configuração do Redis
 REDIS_URL = "redis://my-redis:6379"  # URL do Redis em container
+
 redis_client = aioredis.from_url(REDIS_URL)
+
