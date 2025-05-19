@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Api from "./Api"; // Instância do axios
-import "../statics/ListarLivro.css";
 
 const ListarLivros = () => {
   const [livros, setLivros] = useState([]);
@@ -59,10 +58,10 @@ const ListarLivros = () => {
   const paginaAtual = skip / limit + 1;
 
   return (
-    <div className="listarLivrosContainer">
+    <div style={{ padding: "20px" }}>
       <h2>📚 Livros Cadastrados</h2>
 
-      <div className="filtrosContainer">
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
           name="title"
@@ -96,7 +95,7 @@ const ListarLivros = () => {
         <button onClick={aplicarFiltros}>Filtrar</button>
       </div>
 
-      <table className="livrosTable" border="1">
+      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th>Título</th>
@@ -119,7 +118,7 @@ const ListarLivros = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="semLivros">
+              <td colSpan="5" style={{ textAlign: "center" }}>
                 Nenhum livro encontrado
               </td>
             </tr>
@@ -127,14 +126,14 @@ const ListarLivros = () => {
         </tbody>
       </table>
 
-      <div className="paginacaoContainer">
+      <div style={{ marginTop: "20px" }}>
         <button
           onClick={() => setSkip((prev) => Math.max(prev - limit, 0))}
           disabled={skip === 0}
         >
           Anterior
         </button>
-        <span>Página {paginaAtual}</span>
+        <span style={{ margin: "0 10px" }}>Página {paginaAtual}</span>
         <button
           onClick={() =>
             livros.length < limit
