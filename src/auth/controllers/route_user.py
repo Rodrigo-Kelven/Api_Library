@@ -1,12 +1,18 @@
-from fastapi import APIRouter, Depends, status, Form
+from fastapi import APIRouter, Depends, status, Form, Request
 from src.auth.schemas.user import Token, User, UserResponse, UserResponseCreate, UserResponseEdit
 from src.config.config_db import AsyncSessionLocal
 from typing import List, Annotated
 from src.auth.auth import OAuth2PasswordRequestForm, get_current_active_user, check_permissions, Role
 from src.auth.services.services import ServicesAuthUser
 
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
 
 routes_auth_auten = APIRouter()
+
+# decoracor do rate limit
+limiter = Limiter(key_func=get_remote_address)
 
 
 # Rota de login
@@ -17,7 +23,10 @@ routes_auth_auten = APIRouter()
     description="Route login user",
     name="Route login user"
 )
-async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+@limiter.limit("20/minute") # O ideal é 5
+async def login_for_access_token(
+    request: Request,
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     return await ServicesAuthUser.login_user_Service(form_data)
 
 
@@ -30,12 +39,16 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     description="Route get informations user",
     name="Route get informations user"
 )
-async def read_users_me(current_user: Annotated[User , Depends(get_current_active_user)]):
+@limiter.limit("30/minute")  # Limite de 30 requisições por minuto
+async def read_users_me(
+    request: Request,
+    current_user: Annotated[User , Depends(get_current_active_user)]
+    ):
     check_permissions(current_user, Role.user)
     return current_user
 
 # Rota para obter itens do usuário autenticado
-# desativada
+# DESATIVADA
 @routes_auth_auten.get(
     path="/users/me/items/",
     status_code=status.HTTP_202_ACCEPTED,
@@ -56,7 +69,9 @@ async def read_own_items(current_user: Annotated[User , Depends(get_current_acti
     description="Route create user",
     name="Route create user"
 )
+@limiter.limit("20/minute") # O ideal é 5
 async def create_user(
+    request: Request,
     username: str = Form(...),
     email: str = Form(...),
     full_name: str = Form(...),
@@ -67,7 +82,7 @@ async def create_user(
 
 
 # Rota para listar todos os usuários (somente admin)
-# desativada
+# DESATIVADA
 @routes_auth_auten.get(
     path="/users/",
     status_code=status.HTTP_202_ACCEPTED,
@@ -89,7 +104,9 @@ async def get_users(current_user: Annotated[User , Depends(get_current_active_us
     description="Route update informations user",
     name="Route update user"
 )
+@limiter.limit("20/minute") # O ideal é 5
 async def update_user(
+    request: Request,
     email: str,
     user: UserResponseEdit,
     current_user: Annotated[User , Depends(get_current_active_user)]
@@ -103,5 +120,8 @@ async def update_user(
     response_description="Informations delete account",
     name="Route delete user"
 )
-async def delete_user(current_user: Annotated[User  , Depends(get_current_active_user)]):
+@limiter.limit("10/minute")  # Limite de 10 requisições por minuto, o ideal é 2
+async def delete_user(
+    request: Request,
+    current_user: Annotated[User  , Depends(get_current_active_user)]):
     return await ServicesAuthUser.delete_account_Service(current_user)
