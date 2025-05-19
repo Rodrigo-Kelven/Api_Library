@@ -4,6 +4,7 @@ from enum import Enum as PyEnum
 
 
 
+
 # Definindo os papéis possíveis (Role)
 class Role(PyEnum):
     admin = "admin"

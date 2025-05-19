@@ -34,7 +34,7 @@ class ServicesAuthUser:
                 auth_logger.warning(msg="Usuario nao encontrado.")
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Incorrect email or password.",
+                    detail="Incorrect email or password",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
             

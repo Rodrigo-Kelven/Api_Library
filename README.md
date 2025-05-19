@@ -8,7 +8,7 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) 
 
-# Versao 1.1.15
+# Versao 1.1.10
 
 ![Minha Imagem](images/Library.png)
 
@@ -61,18 +61,23 @@ Instale o projeto
   git clone https://github.com/Rodrigo-Kelven/Api_Books/
   cd Api_Books/src
 ```
-Para rodar o projeto, rode o seguinte comando
+Instale as dependências para rodar o Backend
 
 ```bash
-  docker-compose up
+  pip instal -r requirements.txt
 ```
-
 Instale as dependências para rodar o Frontend
 
 ```bash
   npm install
 ```
+Para rodar o projeto, rode o seguinte comando
 
+```bash
+  cd Api_Books/src
+  chmod +x exec.sh
+  ./exec.sh
+```
 Instale e ative uma venv (Opcional).
 
 ```bash
