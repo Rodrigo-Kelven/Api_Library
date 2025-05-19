@@ -99,3 +99,6 @@ Temp/
 .cache/
 yarn.lock
 package-lock.json
+
+# Arquivos de configuração do sistema
+node_modules/
