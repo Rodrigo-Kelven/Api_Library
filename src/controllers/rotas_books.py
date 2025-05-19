@@ -1,11 +1,13 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, status, Query
+from fastapi import APIRouter, Depends, status, Query, Request
 from sqlalchemy import delete
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from src.auth.auth import get_current_user
 from src.config.config_db import get_db
 from src.schemas.books import Book, BookCreate, BookUpdate
 from src.service.services import BooksServices
+from src.config.config import limiter
 
 
 routes_books = APIRouter()
@@ -19,8 +21,16 @@ routes_books = APIRouter()
         name="Route register books",
         response_model=Book
         )
-async def create_item(book: BookCreate, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.create_book(book, db)
+@limiter.limit("20/minute") # O ideal é 5
+async def create_item(
+    request: Request,
+    book: BookCreate,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ): 
+    # realiza o registro do livro
+    return await BooksServices.create_book_Service(book, db)
+
 
 
 # adicionar pesquisa por: author, nome, titulo, categoria, lingua, quantidade de paginas
@@ -31,8 +41,15 @@ async def create_item(book: BookCreate, db: AsyncSession = Depends(get_db)):
         name="Route search book for id",
         response_model=Book,
         )
-async def read_item(book_id: int, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.get_book(book_id, db)
+@limiter.limit("30/minute")  # Limite mais alto para um endpoint de busca mais específica
+async def read_item(
+    request: Request,
+    book_id: int,
+    db: AsyncSession = Depends(get_db)
+    ):
+    # realiza um get passando o id do livro
+    return await BooksServices.get_book_Service(book_id, db)
+
 
 
 # somente admin podem ter acesso
@@ -43,8 +60,18 @@ async def read_item(book_id: int, db: AsyncSession = Depends(get_db)):
         name="Route update books",
         response_model=Book
         )
-async def update_item(book_id: int, book: BookUpdate, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.update_book(book_id, book, db)
+@limiter.limit("20/minute") # O ideal é 5
+async def update_item(
+    request: Request,
+    book_id: int,
+    book: BookUpdate,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ):
+    # realiza update de livros com o id passado
+    return await BooksServices.update_book_Service(book_id, book, db)
+
+
 
 # somente admin podem ter acesso
 @routes_books.delete(
@@ -53,14 +80,18 @@ async def update_item(book_id: int, book: BookUpdate, db: AsyncSession = Depends
         description="Router delete book for ID",
         name="Route delete book",
         )
-async def delete_item(book_id: int, db: AsyncSession = Depends(get_db)):
-    return await BooksServices.delete_book(book_id, db)
+@limiter.limit("10/minute")  # Limite de 10 requisições por minuto, o ideal é 2
+async def delete_item(
+    request: Request,
+    book_id: int,
+    current_user: str = Depends(get_current_user), # Garante que o usuário está autenticado):
+    db: AsyncSession = Depends(get_db),
+    ):
+    # realiza delete of books
+    return await BooksServices.delete_book_Service(book_id, db)
 
 
-# implementar limite de busca EX: limit 100, para evitar pesquisas repetitivas no DB, 
-# causando repeticao de conexoes e gargalo 
-# implementar juntamente com pagination no front
-# possivel implementacao de Redis
+
 @routes_books.get(
         path="/books-search-limit/",
         status_code=status.HTTP_200_OK,
@@ -68,12 +99,16 @@ async def delete_item(book_id: int, db: AsyncSession = Depends(get_db)):
         name="Router get all books with limit",
         response_model=list[Book]
         )
+@limiter.limit("30/minute")  # Limite de 30 requisições por minuto
 async def read_items(
+    request: Request,
     db: AsyncSession = Depends(get_db),
     skip: int = 0,
     limit: int = 20
     ):
-    return await BooksServices.get_all_with_limit_books(db, skip=skip, limit=limit)
+    # realiza um query que busca todos os livros com os parametros passasados
+    return await BooksServices.get_all_with_limit_books_Service(db, skip=skip, limit=limit)
+
 
 
 @routes_books.get(
@@ -83,19 +118,27 @@ async def read_items(
         name="Router get all books",
         response_model=list[Book]
         )
-async def read_items(db: AsyncSession = Depends(get_db)):
-    return await BooksServices.get_all_books(db)
+@limiter.limit("20/minute")  # Limite de 20 requisições por minuto
+async def read_items(
+    request: Request,
+    db: AsyncSession = Depends(get_db)
+    ):
+
+    # realiza um query para pegar todos os livros da tabela
+    return await BooksServices.get_all_books_Service(db)
 
 
 
 @routes_books.get(
-    path="/books/search-filters/",
-    response_model=List[Book],
-    status_code=status.HTTP_200_OK,
-    description="List search with query books",
-    name="Route search with query books"
+        path="/books/search-filters/",
+        response_model=List[Book],
+        status_code=status.HTTP_200_OK,
+        description="List search with query books",
+        name="Route search with query books"
     )
+@limiter.limit("15/minute")  # Limite de 15 requisições por minuto
 async def read_books(
+    request: Request,
     title: Optional[str] = Query(None, description="Filtrar por título"),
     author: Optional[str] = Query(None, description="Filtrar por autor"),
     category: Optional[str] = Query(None, description="Filtrar por categoria"),
@@ -104,10 +147,11 @@ async def read_books(
     available: Optional[bool] = Query(None, description="Filtrar por disponibilidade"),
     skip: int = 0,
     limit: int = 10,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db) # realiza a conexao com o banco de dados e procura na tebela
     ):
 
-    return await BooksServices.get_filtered_books(
+    # realiza a filtragem no services
+    return await BooksServices.get_filtered_books_Service(
         db, title=title, author=author,
         category=category, min_pages=min_pages,
         max_pages=max_pages,

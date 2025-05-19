@@ -84,26 +84,15 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Use
 # Verificar se a sessão está ativa
 async def get_current_active_user(current_user: Annotated[User , Depends(get_current_user)]) -> User:
     if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
+        raise HTTPException(status_code=400, detail="Inactive user.")
     return current_user
 
 
 # Função que verifica permissões de acesso
 def check_permissions(user: UserDB, required_role: Role):
     if user.role != required_role and user.role != Role.admin:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions.")
 
-
-# Configurar o log
-logging.basicConfig(level=logging.INFO)
-
-
-class LogRequestMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        logging.info(f"Requisição recebida: {request.method} {request.url}")
-        response = await call_next(request)
-        logging.info(f"Resposta enviada com status {response.status_code}")
-        return response
 
 
 class AuthenticationMiddleware(BaseHTTPMiddleware):
