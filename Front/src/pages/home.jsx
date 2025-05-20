@@ -8,7 +8,6 @@ const Home = () => {
         <div className="home">
           <h1>Bem-vindo ao Sistema de Empréstimo de Livros</h1>
           <p>Faça login ou cadastre-se para começar a usar o sistema.</p>
-          <a href='/listar/livros'>Listar Livros</a>
         </div>
       </div>
     </>
