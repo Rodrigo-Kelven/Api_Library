@@ -1,0 +1,72 @@
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .cadastroLivroForm {
+    background-color: #ffe6a7;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 360px;
+    width: 570px;
+  }
+ 
+  .Titulo{
+    width: 250px !important;  
+  }
+ 
+  .Autor{
+    width: 250px !important;
+    margin-left: 10px;
+  }
+  .ISBN{
+    width: 250px !important;
+    margin-left: 10px;
+  }
+  .Data{
+    width: 250px !important;
+  }
+  .Paginas{
+    width: 250px !important;
+    margin-left: 10px;
+  }
+  
+  .Categoria{
+    width: 250px !important;
+  }
+  .cadastroLivroForm input,
+  .cadastroLivroForm textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo do botão */
+  .cadastroLivroForm button {
+    width: 100%;;
+    margin-top: 30px !important;
+    padding: 12px;
+    background-color: #333d29; /* Verde = Sucesso ou Aprovado */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cadastroLivroForm button:hover {
+    background-color: #596c47; 
+  }
+  
+  .cadastroLivroForm input,
+  .cadastroLivroForm textarea,
+  .cadastroLivroForm button {
+    margin-top: 10px;
+  }

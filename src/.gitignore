@@ -1,0 +1,104 @@
+# Sistema Operacional
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# Dependências
+bower_components/
+jspm_packages/
+
+# Arquivos de build
+dist/
+build/
+tmp/
+temp/
+
+# Editor de Texto
+# VSCode
+.vscode/
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+# JetBrains (PyCharm, IntelliJ, etc.)
+.idea/
+
+# Arquivos de logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de backup
+*.bak
+*.swp
+*.swo
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.pid
+
+# Diretórios temporários de compilação
+out/
+build/
+dist/
+
+# Arquivos de configuração do editor de código
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Arquivos de cache de pacotes
+.cache/
+*.tgz
+*.tar.gz
+*.zip
+
+# Arquivos específicos de linguagens
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+venv/
+env/
+ENV/
+venv.bak/
+*egg-info/
+
+# JavaScript
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Unity
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+Build/
+Library/
+Temp/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Arquivos de IDEs e editores
+.idea/
+.vscode/
+
+# Caches
+.cache/
+yarn.lock
+package-lock.json
+
+# Arquivos de configuração do sistema
+node_modules/

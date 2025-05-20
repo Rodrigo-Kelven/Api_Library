@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #ffe6a7;
+  font-family: sans-serif;
+}
+
+#root{
+  display: flex;
+  height: 100svh;
+  flex-direction: column;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 20px;
+  background-color: #99582a;
+  padding: 100px; 
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 85svh;
+  width: 97svw;
+}
