@@ -1,0 +1,45 @@
+    .Cadastro{
+    font-size: 25px;
+    color: #583101;
+  }
+  
+  .createUserForm {
+    background-color: #ffe6a7;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  .createUserForm input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo do botão */
+  .createUserForm button {
+    width: 100%;
+    padding: 12px;
+    background-color: #333d29; /* Verde = Aprovado ou Sucesso */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .createUserForm button:hover {
+    background-color: #596c47; 
+  }
+  
+  .createUserForm input,
+  .createUserForm button {
+    margin-top: 10px;
+  }
